@@ -9,7 +9,15 @@ Author:      Phuong Nguyen
 // Security Check: Kill script if user is attempting to access this file directly
 defined('ABSPATH') or die('Access Restricted');
 
-// Autoload classes
+// register activation hook for when the plugin is installed.
+register_activation_hook(__FILE__, 'encodeon_sales_rep_manager_activate');
+function encodeon_sales_rep_manager_activate($network_wide) {
+    require_once dirname(__FILE__).'/encodeon-sales-rep-manager-loader.php';
+    $loader = new EncodeonSalesRepManagerLoader();
+    $loader->db_install();
+}
+
+// autoloader
 function encodeon_sales_rep_autoloader($class_name) 
 {
     $plugin_namespace = 'EncodeonSalesRepManager';
@@ -22,10 +30,5 @@ function encodeon_sales_rep_autoloader($class_name)
 }
 spl_autoload_register('encodeon_sales_rep_autoloader');
 
-$product_manager_plugin = new \EncodeonSalesRepManager\Plugin();
-
-function encodeon_sales_reps_activate() 
-{
-    
-}
-register_activation_hook( __FILE__, 'encodeon_sales_reps_activate' );
+// run the plugin
+$plugin = new \EncodeonSalesRepManager\Plugin;
