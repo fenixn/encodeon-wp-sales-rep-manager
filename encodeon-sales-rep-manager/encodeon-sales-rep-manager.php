@@ -12,7 +12,7 @@ defined('ABSPATH') or die('Access Restricted');
 // Autoload classes
 function encodeon_sales_rep_autoloader($class_name) 
 {
-    $plugin_namespace = 'EncodeonSalesReps';
+    $plugin_namespace = 'EncodeonSalesRepManager';
 
     if (false !== strpos($class_name, $plugin_namespace)) {
         $classes_dir = realpath(plugin_dir_path(__FILE__)) . DIRECTORY_SEPARATOR;
@@ -22,4 +22,10 @@ function encodeon_sales_rep_autoloader($class_name)
 }
 spl_autoload_register('encodeon_sales_rep_autoloader');
 
-$product_manager_plugin = new \EncodeonSalesReps\Plugin();
+$product_manager_plugin = new \EncodeonSalesRepManager\Plugin();
+
+function encodeon_sales_reps_activate() 
+{
+    
+}
+register_activation_hook( __FILE__, 'encodeon_sales_reps_activate' );

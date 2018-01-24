@@ -1,10 +1,9 @@
 <?php
-namespace EncodeonSalesReps;
+namespace EncodeonSalesRepManager;
 class Plugin
 {
     public function __construct()
     {
         //
     }
-
 }
