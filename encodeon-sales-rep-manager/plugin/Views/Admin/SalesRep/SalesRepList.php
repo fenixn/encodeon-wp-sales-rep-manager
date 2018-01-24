@@ -24,10 +24,11 @@ class SalesRepList
     {
         ?>
 
-        <h2>Sales Reprsentatives</h2>
-
-        <?php $sales_rep = new SalesRep; $sales_rep->show(); ?>
-
+        <main class="pt-4 px-4">
+            <h1>Sales Reprsentatives</h1>
+            <?php $sales_rep = new SalesRep; $sales_rep->show(); ?>
+        </main>
+        
         <?php 
     }
 }
