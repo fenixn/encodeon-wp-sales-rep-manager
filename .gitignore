@@ -1,0 +1,9 @@
+# Ignore everything
+/*
+
+# Whitelist Git files
+!.gitignore
+!README.md
+
+# Whitelist plugin directory
+!/encodeon_sales_reps/
