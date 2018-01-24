@@ -6,4 +6,10 @@
 !README.md
 
 # Whitelist plugin directory
-!/encodeon-sales-rep-manager/
+!/encodeon-sales-rep-manager
+/encodeon-sales-rep-manager/*
+!/encodeon-sales-rep-manager/plugin
+!/encodeon-sales-rep-manager/composer.json
+!/encodeon-sales-rep-manager/composer.lock
+!/encodeon-sales-rep-manager/encodeon-sales-rep-manager.php
+!/encodeon-sales-rep-manager/encodeon-sales-rep-manager-loader.php

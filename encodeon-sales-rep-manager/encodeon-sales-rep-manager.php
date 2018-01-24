@@ -18,7 +18,7 @@ function encodeon_sales_rep_manager_activate($network_wide) {
 }
 
 // autoloader
-function encodeon_sales_rep_autoloader($class_name) 
+function encodeon_sales_rep_manager_autoloader($class_name) 
 {
     $plugin_namespace = 'EncodeonSalesRepManager';
 
@@ -28,7 +28,7 @@ function encodeon_sales_rep_autoloader($class_name)
         require_once $classes_dir . 'plugin\\' . $class_file;
     }
 }
-spl_autoload_register('encodeon_sales_rep_autoloader');
+spl_autoload_register('encodeon_sales_rep_manager_autoloader');
 
 // run the plugin
 $plugin = new \EncodeonSalesRepManager\Plugin;
