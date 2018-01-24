@@ -9,7 +9,9 @@
 !/encodeon-sales-rep-manager
 /encodeon-sales-rep-manager/*
 !/encodeon-sales-rep-manager/plugin
+!/encodeon-sales-rep-manager/tests
 !/encodeon-sales-rep-manager/composer.json
 !/encodeon-sales-rep-manager/composer.lock
+!/encodeon-sales-rep-manager/phpunit.xml
 !/encodeon-sales-rep-manager/encodeon-sales-rep-manager.php
 !/encodeon-sales-rep-manager/encodeon-sales-rep-manager-loader.php

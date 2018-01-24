@@ -41,6 +41,8 @@ class Menu
 
         <h2>Show List of Menu items here</h2>
 
-        <?php
+        <?php 
+        $wp_tests_dir = getenv( 'WP_TESTS_DIR' );
+        echo $wp_tests_dir;
     }
 }
