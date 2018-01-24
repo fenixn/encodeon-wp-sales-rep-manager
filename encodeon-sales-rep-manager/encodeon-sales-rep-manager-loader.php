@@ -15,7 +15,8 @@ class EncodeonSalesRepManagerLoader {
     {
     require_once ABSPATH.'wp-admin/includes/upgrade.php';
 
-    add_option('encodeon_sales_rep_db_version', $this->db_version);
+    update_option('encodeon_sales_rep_db_version', $this->db_version);
+    update_option('encodeon_sales_rep_table_name', $wpdb->prefix.'encodeon_sales_reps');
 
     global $wpdb;
     $sql = '

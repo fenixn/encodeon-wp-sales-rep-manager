@@ -9,6 +9,7 @@ class Plugin
 
     public function on_wp_admin_menu()
     {
-        new Views\Admin\Menu;
+        new Views\Admin\MainMenu;
+        new Views\Admin\SalesRep\SalesRepList;
     }
 }

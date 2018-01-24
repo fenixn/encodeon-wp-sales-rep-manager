@@ -1,6 +1,6 @@
 <?php
 namespace EncodeonSalesRepManager\Views\Admin;
-class Menu
+class MainMenu
 {
     public function __construct()
     {
@@ -42,7 +42,5 @@ class Menu
         <h2>Show List of Menu items here</h2>
 
         <?php 
-        $wp_tests_dir = getenv( 'WP_TESTS_DIR' );
-        echo $wp_tests_dir;
     }
 }
