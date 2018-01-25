@@ -1,7 +1,7 @@
 <?php
 namespace EncodeonSalesRepManager\Views\Admin\SalesRep;
-use EncodeonSalesRepManager\Models\SalesRep;
-class SalesRepList
+use EncodeonSalesRepManager\Models\SalesRep\Show;
+class ShowView
 {
     public function __construct()
     {
@@ -22,11 +22,12 @@ class SalesRepList
 
     public function submenu_page()
     {
+        (new \EncodeonSalesRepManager\Views\Partials\StatusMessage)->render();
         ?>
 
         <main class="pt-4 px-4">
             <h1>Sales Reprsentatives</h1>
-            <?php $sales_rep = new SalesRep; $sales_rep->show(); ?>
+            <?php $sales_rep_show = new Show; $sales_rep_show->render(); ?>
         </main>
         
         <?php 
