@@ -12,6 +12,7 @@
 4. Implement delete method for Sales Rep.
 5. Implement a Sales Rep importer.
 6. Implement a Sales Rep exporter.
+7. Implement world map display for frontend.
 
 ## Description:
 A plugin that adds a custom table for managing sales representatives. The final plugin will have a world map display that will show all sales rep in a state when that state is clicked.
