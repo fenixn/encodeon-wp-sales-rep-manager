@@ -76,15 +76,54 @@ class SalesRep
             data-limit="<?php echo $limit; ?>"
         ></div>
 
+        <?php 
+        $pager_increment = 3; 
+
+        if (($page - $pager_increment) <= 1) {
+            $pager_start = 1;
+
+            if ($pager_start + 2 * $pager_increment >= $total_pages) {
+                $pager_end = $total_pages;
+            } else {
+                $pager_end = $pager_start + 2 * $pager_increment;
+            }
+        } else {
+            $pager_start = $page - $pager_increment;
+
+            if (($page + $pager_increment) >= $total_pages) {
+                $pager_end = $total_pages;
+
+                if (($pager_end - 2 * $pager_increment) <= 1) {
+                    $pager_start = 1;
+                } else {
+                    $pager_start = $total_pages - 2 * $pager_increment;
+                }
+            } else {
+                $pager_end = $page + $pager_increment;
+            }
+        }
+        ?>
+
         <div class="row">
             <nav aria-label="Sales Rep Pagination">
                 <ul class="pagination">
+                    <li class="page-item <?php if ($page == 1) echo "disabled" ?>" 
+                        data-page="1"
+                        data-active="<?php echo ($page == 1 ? 0 : 1); ?>">
+                        <a href="" class="page-link">
+                            1
+                            <i class="fas fa-caret-left"></i>
+                            <i class="fas fa-caret-left"></i>
+                        </a>
+                    </li>
                     <li class="page-item <?php if ($page == 1) echo "disabled" ?>"
                         data-page="<?php echo ($page-1); ?>"
                         data-active="<?php echo ($page == 1 ? 0 : 1); ?>">
-                        <a href="" class="page-link">Previous</a>
+                        <a href="" class="page-link">
+                            <i class="fas fa-caret-left"></i>
+                        </a>
                     </li>
-                    <?php for($i=1; $i<=$total_pages; $i++): ?>
+                    <?php for($i=$pager_start; $i<=$pager_end; $i++): ?>
                     <li class="page-item <?php if ($page == $i) echo "active" ?>" 
                         data-page="<?php echo $i; ?>"
                         data-active="<?php echo ($page == $i ? 0 : 1); ?>">
@@ -94,7 +133,18 @@ class SalesRep
                     <li class="page-item <?php if ($page == $total_pages) echo "disabled" ?>"
                         data-page="<?php echo ($page+1); ?>"
                         data-active="<?php echo ($page == $total_pages ? 0 : 1); ?>">
-                        <a href="" class="page-link">Next</a>
+                        <a href="" class="page-link">
+                            <i class="fas fa-caret-right"></i>
+                        </a>
+                    </li>
+                    <li class="page-item <?php if ($page == $total_pages) echo "disabled" ?>" 
+                        data-page="<?php echo $total_pages; ?>"
+                        data-active="<?php echo ($page == $total_pages ? 0 : 1); ?>">
+                        <a href="" class="page-link">
+                            <i class="fas fa-caret-right"></i>
+                            <i class="fas fa-caret-right"></i>
+                            <?php echo $total_pages; ?>
+                        </a>
                     </li>
                 </ul>
             </nav>

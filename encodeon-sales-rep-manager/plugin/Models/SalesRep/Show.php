@@ -24,7 +24,7 @@ class Show extends SalesRep
                     attribute="id", 
                     sort="ASC",
                     page=1,
-                    limit=3,
+                    limit=50,
                 ) {
                     var form_data = new FormData();
                     form_data.append("action", "generate_sales_rep_table");
