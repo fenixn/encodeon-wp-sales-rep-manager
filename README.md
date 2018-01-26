@@ -4,8 +4,6 @@
 
 ## ToDo
 1. Finish up show for Sales Rep.
-   - Finish pagination for Sales Rep Table.
-     - Have pager appear both at top and bottom of the sales rep table.
    - Implement search for Sales Rep Table.
 2. Implement create method for Sales Rep.
 3. Implement edit method for Sales Rep.

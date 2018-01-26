@@ -76,9 +76,45 @@ class SalesRep
             data-limit="<?php echo $limit; ?>"
         ></div>
 
-        <?php 
-        $pager_increment = 3; 
+        <?php $this->get_pager($page, $total_pages); ?>
 
+        <div class="row">
+            <div class="table-responsive">
+                <?php if (count($sales_reps) > 0): ?>
+                    <table id="sales-rep-manager-table" class="table table-striped table-sm">
+                        <thead class="thead-inverse">
+                        <?php foreach($sales_reps[0] as $key => $sales_rep): ?>
+                            <th class="text-capitalize bg-primary" 
+                                style="cursor: pointer"
+                                data-attribute-name="<?php echo $key; ?>"
+                                data-attribute-sort="<?php echo $sort; ?>">
+                            <?php $this->get_header_icon($key); ?>
+                            <?php echo $key; ?>
+                            <?php $this->get_sort_icon($attribute, $key, $sort); ?>
+                            </th>
+                        <?php endforeach; ?>
+                        </thead>
+                        <?php foreach($sales_reps as $sales_rep): ?>
+                        <tr>
+                            <?php foreach($sales_rep as $sales_rep_attribute): ?>
+                                <td>
+                                    <?php echo $sales_rep_attribute; ?>
+                                </td>
+                            <?php endforeach; ?>
+                        </tr>
+                        <?php endforeach; ?>
+                    </table>
+                <?php endif; ?>
+            </div>
+        </div>
+
+        <?php $this->get_pager($page, $total_pages); ?>
+
+        <?php
+    }
+
+    public function get_pager($page, $total_pages, $pager_increment = 3)
+    {
         if (($page - $pager_increment) <= 1) {
             $pager_start = 1;
 
@@ -149,37 +185,6 @@ class SalesRep
                 </ul>
             </nav>
         </div>
-
-        <div class="row">
-            <div class="table-responsive">
-                <?php if (count($sales_reps) > 0): ?>
-                    <table id="sales-rep-manager-table" class="table table-striped table-sm">
-                        <thead class="thead-inverse">
-                        <?php foreach($sales_reps[0] as $key => $sales_rep): ?>
-                            <th class="text-capitalize bg-primary" 
-                                style="cursor: pointer"
-                                data-attribute-name="<?php echo $key; ?>"
-                                data-attribute-sort="<?php echo $sort; ?>">
-                            <?php $this->get_header_icon($key); ?>
-                            <?php echo $key; ?>
-                            <?php $this->get_sort_icon($attribute, $key, $sort); ?>
-                            </th>
-                        <?php endforeach; ?>
-                        </thead>
-                        <?php foreach($sales_reps as $sales_rep): ?>
-                        <tr>
-                            <?php foreach($sales_rep as $sales_rep_attribute): ?>
-                                <td>
-                                    <?php echo $sales_rep_attribute; ?>
-                                </td>
-                            <?php endforeach; ?>
-                        </tr>
-                        <?php endforeach; ?>
-                    </table>
-                <?php endif; ?>
-            </div>
-        </div>
-
         <?php
     }
 
