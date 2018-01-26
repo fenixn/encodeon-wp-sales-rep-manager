@@ -4,7 +4,6 @@
 
 ## ToDo
 1. Finish up show for Sales Rep.
-   - Finish up sorter for Sales Rep Table.
    - Implement pagination for Sales Rep Table.
    - Implement search for Sales Rep Table.
 2. Implement create method for Sales Rep.
