@@ -59,7 +59,7 @@ class SalesRep
         // Calculate the offset, and check if it's viable
         $offset = ($page - 1) * $limit;
 
-        if (($offset > num_rows) || $offset < 0) {
+        if (($offset > $num_rows) || $offset < 0) {
             die("Invalid offset for sales rep table.");
         }
 
@@ -79,15 +79,21 @@ class SalesRep
         <div class="row">
             <nav aria-label="Sales Rep Pagination">
                 <ul class="pagination">
-                    <li class="page-item <?php if ($page == 1) echo "disabled" ?>">
+                    <li class="page-item <?php if ($page == 1) echo "disabled" ?>"
+                        data-page="<?php echo ($page-1); ?>"
+                        data-active="<?php echo ($page == 1 ? 0 : 1); ?>">
                         <a href="" class="page-link">Previous</a>
                     </li>
                     <?php for($i=1; $i<=$total_pages; $i++): ?>
-                    <li class="page-item">
+                    <li class="page-item <?php if ($page == $i) echo "active" ?>" 
+                        data-page="<?php echo $i; ?>"
+                        data-active="<?php echo ($page == $i ? 0 : 1); ?>">
                         <a href="" class="page-link"><?php echo $i; ?></a>
                     </li>
                     <?php endfor; ?>
-                    <li class="page-item <?php if ($page == $total_pages) echo "disabled" ?>">
+                    <li class="page-item <?php if ($page == $total_pages) echo "disabled" ?>"
+                        data-page="<?php echo ($page+1); ?>"
+                        data-active="<?php echo ($page == $total_pages ? 0 : 1); ?>">
                         <a href="" class="page-link">Next</a>
                     </li>
                 </ul>

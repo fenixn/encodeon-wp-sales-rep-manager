@@ -5,7 +5,6 @@
 ## ToDo
 1. Finish up show for Sales Rep.
    - Finish pagination for Sales Rep Table.
-     - Set up the AJAX Call
      - Set up pager to skip on many pages.
      - Have pager appear both at top and bottom of the sales rep table.
    - Implement search for Sales Rep Table.

@@ -56,11 +56,24 @@ class Show extends SalesRep
                 $('#table-container').on("click", "th", function(event) {
                     var attribute = this.dataset.attributeName;
                     var sort = this.dataset.attributeSort;
-                    var page = $(this).closest("#table-container").find("#table-data").attr("data-page");
+                    var page = $("#table-data").attr("data-page");
 
                     // Reverse the sort order of the current sort.
                     if (sort === "ASC") { sort = "DESC" } else { sort = "ASC" }
                     generate_sales_rep_table(attribute, sort, page);
+                });
+
+                // AJAX call for changing page number
+                $("#table-container").on("click", ".page-item", function(event) {
+                    event.preventDefault();
+                    var attribute = $("#table-data").attr("data-attribute-name");
+                    var sort = $("#table-data").attr("data-attribute-sort");
+                    var page = this.dataset.page;
+                    var active = this.dataset.active;
+
+                    if (active == 1) {
+                        generate_sales_rep_table(attribute, sort, page);
+                    }
                 });
 
                 $('form').on('submit', function(event) {
