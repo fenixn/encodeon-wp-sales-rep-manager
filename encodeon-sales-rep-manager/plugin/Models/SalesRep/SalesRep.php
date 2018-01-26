@@ -8,6 +8,8 @@ class SalesRep
 
         $attribute = $_REQUEST['attribute'];
         $sort = $_REQUEST['sort'];
+        $page = $_REQUEST['page'];
+        $limit = $_REQUEST['limit'];
 
         // Anti CSRF
         if (wp_verify_nonce($_REQUEST['generate_sales_rep_table_nonce'], "generate_sales_rep_table") === false) {
@@ -32,17 +34,65 @@ class SalesRep
         ];
 
         $allowed_sort = ['ASC', 'DESC'];
-
-        if(!in_array($attribute, $allowed_attributes) || !in_array($sort, $allowed_sort))
-        {
+        if(!in_array($attribute, $allowed_attributes) || !in_array($sort, $allowed_sort)) {
             die('Invalid inputs detected.');
         }
 
-        $query = "SELECT * FROM " . get_option('encodeon_sales_rep_table_name') . " ORDER BY {$attribute} {$sort}";
+        // Test if page input is a positive integer
+        if(!preg_match("/^[+]?[1-9]\d*$/", $page)) {
+            die("Invalid input for page number.");
+        }
+
+        // Test if limit input is a positive integer
+        if(!preg_match("/^[+]?[1-9]\d*$/", $limit)) {
+            die("Invalid input for sales rep per page.");
+        }
+
+        /**
+         * Set Pagination variables
+         */
+
+        // Get the total number of rows first to calculate total number of pages
+        $num_rows = $wpdb->get_var("SELECT COUNT(*) FROM " . get_option('encodeon_sales_rep_table_name'));
+        $total_pages = ceil($num_rows/$limit);
+
+        // Calculate the offset, and check if it's viable
+        $offset = ($page - 1) * $limit;
+
+        if (($offset > num_rows) || $offset < 0) {
+            die("Invalid offset for sales rep table.");
+        }
+
+        $query = "SELECT * FROM " . get_option('encodeon_sales_rep_table_name') . " ORDER BY {$attribute} {$sort} LIMIT {$limit} OFFSET {$offset}";
 
         $sales_reps = $wpdb->get_results($query);
 
         ?>
+
+        <div id="table-data"
+            data-attribute-name="<?php echo $attribute; ?>"
+            data-attribute-sort="<?php echo $sort; ?>"
+            data-page="<?php echo $page; ?>"
+            data-limit="<?php echo $limit; ?>"
+        ></div>
+
+        <div class="row">
+            <nav aria-label="Sales Rep Pagination">
+                <ul class="pagination">
+                    <li class="page-item <?php if ($page == 1) echo "disabled" ?>">
+                        <a href="" class="page-link">Previous</a>
+                    </li>
+                    <?php for($i=1; $i<=$total_pages; $i++): ?>
+                    <li class="page-item">
+                        <a href="" class="page-link"><?php echo $i; ?></a>
+                    </li>
+                    <?php endfor; ?>
+                    <li class="page-item <?php if ($page == $total_pages) echo "disabled" ?>">
+                        <a href="" class="page-link">Next</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
 
         <div class="row">
             <div class="table-responsive">

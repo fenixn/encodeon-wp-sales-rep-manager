@@ -20,7 +20,12 @@ class Show extends SalesRep
 
                 generate_sales_rep_table();
 
-                function generate_sales_rep_table(attribute="id", sort="ASC") {
+                function generate_sales_rep_table(
+                    attribute="id", 
+                    sort="ASC",
+                    page=1,
+                    limit=3,
+                ) {
                     var form_data = new FormData();
                     form_data.append("action", "generate_sales_rep_table");
                     form_data.append(
@@ -29,6 +34,8 @@ class Show extends SalesRep
                     );
                     form_data.append("attribute", attribute);
                     form_data.append("sort", sort);
+                    form_data.append("page", page);
+                    form_data.append("limit", limit);
 
                     $.ajax({
                         url: "<?php echo admin_url('admin-ajax.php'); ?>",
@@ -49,10 +56,11 @@ class Show extends SalesRep
                 $('#table-container').on("click", "th", function(event) {
                     var attribute = this.dataset.attributeName;
                     var sort = this.dataset.attributeSort;
+                    var page = $(this).closest("#table-container").find("#table-data").attr("data-page");
 
                     // Reverse the sort order of the current sort.
                     if (sort === "ASC") { sort = "DESC" } else { sort = "ASC" }
-                    generate_sales_rep_table(attribute, sort);
+                    generate_sales_rep_table(attribute, sort, page);
                 });
 
                 $('form').on('submit', function(event) {
