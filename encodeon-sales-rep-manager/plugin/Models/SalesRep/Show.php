@@ -48,7 +48,11 @@ class Show extends SalesRep
                 // AJAX call for sorting the sales rep table
                 $('#table-container').on("click", "th", function(event) {
                     var attribute = this.dataset.attributeName;
-                    generate_sales_rep_table(attribute, "ASC");
+                    var sort = this.dataset.attributeSort;
+
+                    // Reverse the sort order of the current sort.
+                    if (sort === "ASC") { sort = "DESC" } else { sort = "ASC" }
+                    generate_sales_rep_table(attribute, sort);
                 });
 
                 $('form').on('submit', function(event) {

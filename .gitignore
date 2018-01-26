@@ -5,7 +5,7 @@
 !.gitignore
 !README.md
 
-# Whitelist plugin directory
+# Whitelist plugin files
 !/encodeon-sales-rep-manager
 /encodeon-sales-rep-manager/*
 !/encodeon-sales-rep-manager/plugin
@@ -15,3 +15,8 @@
 !/encodeon-sales-rep-manager/phpunit.xml
 !/encodeon-sales-rep-manager/encodeon-sales-rep-manager.php
 !/encodeon-sales-rep-manager/encodeon-sales-rep-manager-loader.php
+
+# Whitelist vendor directories that can't be built with composer
+!/encodeon-sales-rep-manager/vendor
+/encodeon-sales-rep-manager/vendor/*
+!/encodeon-sales-rep-manager/vendor/fontawesome

@@ -33,6 +33,17 @@ class MainMenu
                 '4.00'
             );
         }
+
+        // Enqueue FontAwesome
+        if( ( ! wp_style_is( 'fontawesome', 'queue' ) ) && 
+            ( ! wp_style_is( 'fontawesome', 'done' ) ) ) {
+            wp_enqueue_style(
+                'fontawesome',
+                plugins_url('encodeon-sales-rep-manager/vendor/fontawesome/web-fonts-with-css/css/fontawesome-all.min.css'),
+                array(),
+                '5.0.4'
+            );
+        }
     }
 
     public function sales_rep_main_menu_page()

@@ -52,9 +52,10 @@ class SalesRep
                         <?php foreach($sales_reps[0] as $key => $sales_rep): ?>
                             <th class="text-capitalize bg-primary" 
                                 style="cursor: pointer"
-                                data-attribute-name="<?php echo $key; ?>">
+                                data-attribute-name="<?php echo $key; ?>"
+                                data-attribute-sort="<?php echo $sort; ?>">
                             <?php echo $key; ?>
-                            <?php if($key === $attribute) echo "ASC"; ?>
+                            <?php $this->get_sort($attribute, $key, $sort); ?>
                             </th>
                         <?php endforeach; ?>
                         </thead>
@@ -73,5 +74,16 @@ class SalesRep
         </div>
 
         <?php
+    }
+
+    public function get_sort($sort_attribute, $current_attribute, $sort_by) 
+    {
+        if ($sort_attribute === $current_attribute) {
+            if ($sort_by === 'ASC') {
+                echo "<i class=\"fas fa-sort-up\"></i>";
+            } else {
+                echo "<i class=\"fas fa-sort-down\"></i>";
+            }
+        }
     }
 }
