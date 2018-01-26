@@ -54,8 +54,9 @@ class SalesRep
                                 style="cursor: pointer"
                                 data-attribute-name="<?php echo $key; ?>"
                                 data-attribute-sort="<?php echo $sort; ?>">
+                            <?php $this->get_header_icon($key); ?>
                             <?php echo $key; ?>
-                            <?php $this->get_sort($attribute, $key, $sort); ?>
+                            <?php $this->get_sort_icon($attribute, $key, $sort); ?>
                             </th>
                         <?php endforeach; ?>
                         </thead>
@@ -76,7 +77,7 @@ class SalesRep
         <?php
     }
 
-    public function get_sort($sort_attribute, $current_attribute, $sort_by) 
+    public function get_sort_icon($sort_attribute, $current_attribute, $sort_by) 
     {
         if ($sort_attribute === $current_attribute) {
             if ($sort_by === 'ASC') {
@@ -84,6 +85,38 @@ class SalesRep
             } else {
                 echo "<i class=\"fas fa-sort-down\"></i>";
             }
+        }
+    }
+
+    public function get_header_icon($attribute)
+    {
+        switch ($attribute) {
+            case "id":
+                echo "<i class=\"fas fa-id-card\"></i>";
+                break;
+            case "name":
+                echo "<i class=\"fas fa-user\"></i>";
+                break;
+            case "email":
+                echo "<i class=\"fas fa-envelope\"></i>";
+                break;
+            case "phone":
+                echo "<i class=\"fas fa-phone\"></i>";
+                break;
+            case "cell":
+                echo "<i class=\"fas fa-mobile\"></i>";
+                break;
+            case "fax":
+                echo "<i class=\"fas fa-fax\"></i>";
+                break;
+            case "company":
+                echo "<i class=\"fas fa-building\"></i>";
+                break;
+            case "url":
+                echo "<i class=\"fas fa-link\"></i>";
+                break;
+            default:
+                break;
         }
     }
 }
