@@ -14,7 +14,8 @@ class SalesRep
 
         // Anti CSRF
         if (wp_verify_nonce($_REQUEST['generate_sales_rep_table_nonce'], "generate_sales_rep_table") === false) {
-            die("Invalid nonce for the generate sales rep table request.");
+            $this->show_error("Invalid nonce for the generate sales rep table request.");
+            die();
         }
 
         // Search input validation
@@ -42,17 +43,20 @@ class SalesRep
 
         $allowed_sort = ['ASC', 'DESC'];
         if(!in_array($attribute, $allowed_attributes) || !in_array($sort, $allowed_sort)) {
-            die('Invalid inputs detected.');
+            $this->show_error("Invalid sort input.");
+            die();
         }
 
         // Test if page input is a positive integer
         if(!preg_match("/^[+]?[1-9]\d*$/", $page)) {
-            die("Invalid input for page number.");
+            $this->show_error("Invalid input for page number.");
+            die();
         }
 
         // Test if limit input is a positive integer
         if(!preg_match("/^[+]?[1-9]\d*$/", $limit)) {
-            die("Invalid input for sales rep per page.");
+            $this->show_error("Invalid input for sales rep per page.");
+            die();
         }
 
         /**
