@@ -19,13 +19,7 @@ class SalesRep
 
         // Search input validation
         if(preg_match("/[^a-zA-Z0-9 ]+/", $search_term)) {
-            ?>
-                <script type="text/javascript">
-                jQuery(document).ready(function($) {
-                    $(".status-message").html("<div class='alert alert-danger'>Error: " + "Invalid characters detected in search." + "</div>");
-                });
-                </script>
-            <?php
+            $this->show_error("Invalid characters detected in search.");
             die();
         }
 
@@ -284,5 +278,17 @@ class SalesRep
             default:
                 break;
         }
+    }
+
+    public function show_error($error)
+    {
+        ?>
+        <script type="text/javascript">
+            jQuery(document).ready(function($) {
+                $(".status-message").html("<div class='alert alert-danger'>Error: " + 
+                    "<?php echo $error; ?>" + "</div>");
+            });
+        </script>
+        <?php
     }
 }

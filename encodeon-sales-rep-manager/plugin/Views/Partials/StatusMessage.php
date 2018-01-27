@@ -5,7 +5,7 @@ class StatusMessage
     public function render()
     { 
         ?>
-        <div class="status-message pt-4 px-4"></div>
+        <div class="status-message pt-4"></div>
         <?php
     }
 }

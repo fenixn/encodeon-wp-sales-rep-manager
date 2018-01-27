@@ -22,11 +22,13 @@ class ShowView
 
     public function submenu_page()
     {
-        (new \EncodeonSalesRepManager\Views\Partials\StatusMessage)->render();
         ?>
 
-        <main class="container-fluid">
-            <h1>Sales Reprsentatives</h1>
+        <main class="container-fluid mt-2">
+            <h1>Sales Representatives</h1>
+
+            <?php (new \EncodeonSalesRepManager\Views\Partials\StatusMessage)->render(); ?>
+
             <?php $sales_rep_show = new Show; $sales_rep_show->render(); ?>
         </main>
         
