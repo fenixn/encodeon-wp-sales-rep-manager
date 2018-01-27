@@ -29,7 +29,11 @@ class CreateView
             <?php (new \EncodeonSalesRepManager\Views\Partials\StatusMessage)->render(); ?>
 
             <div class="card col-md-12">
-                <form action="">
+                <form id="create-new-sales-rep" method="post">
+
+                    <input type="hidden" name="action" value="create_sales_rep">
+                    <input type="hidden" name="create_sales_rep_nonce" value="<?php echo wp_create_nonce('create_sales_rep'); ?>">
+
                     <div class="row">
                         <div class="form-group col-md-6">
                             <label for="name">Sales Representative Name</label>
@@ -150,6 +154,27 @@ class CreateView
                 </form>
             </div>
         </main>
+
+        <script type="text/javascript">
+            jQuery(document).ready(function($) {
+                // AJAX call for creating new sales rep
+                $('#create-new-sales-rep').on("click", "button[type='submit']", function(event) {
+                    event.preventDefault();
+                    var form_data = $("#create-new-sales-rep").serialize();
+                    $.ajax({
+                        url: "<?php echo admin_url('admin-ajax.php'); ?>",
+                        type: "post",
+                        data: form_data,
+                        success: function(data) {
+                            $(".status-message").html(data);
+                        },
+                        error: function(xhr, desc, err) {
+                            $(".status-message").html("<div class='alert alert-danger'>Error: " + err + "</div>");
+                        }
+                    });
+                });
+            });
+        </script>
         
         <?php 
     }

@@ -14,48 +14,34 @@ class SalesRep
 
         // Anti CSRF
         if (wp_verify_nonce($_REQUEST['generate_sales_rep_table_nonce'], "generate_sales_rep_table") === false) {
-            $this->show_error("Invalid nonce for the generate sales rep table request.");
+            $this->show_error("Invalid nonce for the generate sales rep table request.", true);
             die();
         }
 
         // Search input validation
         if(preg_match("/[^a-zA-Z0-9 ]+/", $search_term)) {
-            $this->show_error("Invalid characters detected in search.");
+            $this->show_error("Invalid characters detected in search.", true);
             die();
         }
 
         // Attribute input validation using whitelisting strategy
-        $allowed_attributes = [
-            'id',
-            'name',
-            'email',
-            'phone',
-            'cell',
-            'fax',
-            'company',
-            'url',
-            'address1',
-            'address2',
-            'city',
-            'state',
-            'zip'
-        ];
-
+        $allowed_attributes = ['id', 'name', 'email', 'phone', 'cell', 'fax', 'company', 'url', 'address1', 'address2', 'city', 'state', 'zip'];
         $allowed_sort = ['ASC', 'DESC'];
+
         if(!in_array($attribute, $allowed_attributes) || !in_array($sort, $allowed_sort)) {
-            $this->show_error("Invalid sort input.");
+            $this->show_error("Invalid sort input.", true);
             die();
         }
 
         // Test if page input is a positive integer
         if(!preg_match("/^[+]?[1-9]\d*$/", $page)) {
-            $this->show_error("Invalid input for page number.");
+            $this->show_error("Invalid input for page number.", true);
             die();
         }
 
         // Test if limit input is a positive integer
         if(!preg_match("/^[+]?[1-9]\d*$/", $limit)) {
-            $this->show_error("Invalid input for sales rep per page.");
+            $this->show_error("Invalid input for sales rep per page.", true);
             die();
         }
 
@@ -93,6 +79,9 @@ class SalesRep
             $search_condition = " ";
         }
 
+        /**
+         * MUST CONVERT THIS TO PREPARED SQL BEFORE PUSHING TO PRODUCTION!!!!
+         */
         $query = "SELECT * FROM " . get_option('encodeon_sales_rep_table_name') . $search_condition . "ORDER BY {$attribute} {$sort} LIMIT {$limit} OFFSET {$offset}";
 
         $sales_reps = $wpdb->get_results($query);
@@ -284,14 +273,17 @@ class SalesRep
         }
     }
 
-    public function show_error($error)
+    public function show_error($error, $refresh = false)
     {
+        $error_html = "<div class='alert alert-danger'>Error: " . $error; 
+        
+        if ($refresh) {
+            $error_html .= " <a href='admin.php?page=sales-rep-manager-list'>Click here to refresh the page.</a></div>";
+        }
         ?>
         <script type="text/javascript">
             jQuery(document).ready(function($) {
-                $(".status-message").html("<div class='alert alert-danger'>Error: " + 
-                    "<?php echo $error; ?>" + 
-                    " <a href='admin.php?page=sales-rep-manager-list'>Click here to refresh the page.</a></div>");
+                $(".status-message").html("<?php echo $error_html; ?>");
             });
         </script>
         <?php
