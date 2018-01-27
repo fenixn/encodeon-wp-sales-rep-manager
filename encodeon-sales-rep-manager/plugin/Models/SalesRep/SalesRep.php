@@ -10,13 +10,26 @@ class SalesRep
         $sort = $_REQUEST['sort'];
         $page = $_REQUEST['page'];
         $limit = $_REQUEST['limit'];
+        $search_term = htmlspecialchars($_REQUEST['search_input']);
 
         // Anti CSRF
         if (wp_verify_nonce($_REQUEST['generate_sales_rep_table_nonce'], "generate_sales_rep_table") === false) {
             die("Invalid nonce for the generate sales rep table request.");
         }
 
-        // Input validation using whitelisting strategy
+        // Search input validation
+        if(preg_match("/[^a-zA-Z0-9 ]+/", $search_term)) {
+            ?>
+                <script type="text/javascript">
+                jQuery(document).ready(function($) {
+                    $(".status-message").html("<div class='alert alert-danger'>Error: " + "Invalid characters detected in search." + "</div>");
+                });
+                </script>
+            <?php
+            die();
+        }
+
+        // Attribute input validation using whitelisting strategy
         $allowed_attributes = [
             'id',
             'name',
@@ -56,6 +69,10 @@ class SalesRep
         $num_rows = $wpdb->get_var("SELECT COUNT(*) FROM " . get_option('encodeon_sales_rep_table_name'));
         $total_pages = ceil($num_rows/$limit);
 
+        if ($page > $total_pages) {
+            die("Invalid page input");
+        }
+
         // Calculate the offset, and check if it's viable
         $offset = ($page - 1) * $limit;
 
@@ -63,7 +80,22 @@ class SalesRep
             die("Invalid offset for sales rep table.");
         }
 
-        $query = "SELECT * FROM " . get_option('encodeon_sales_rep_table_name') . " ORDER BY {$attribute} {$sort} LIMIT {$limit} OFFSET {$offset}";
+        if ($search_term != "") {
+            $search_condition = " WHERE ";
+        
+            $table_headers = $wpdb->get_results("SHOW COLUMNS FROM " . get_option('encodeon_sales_rep_table_name'), ARRAY_A);
+
+            foreach($table_headers as $table_header) {
+                $search_condition .= $table_header['Field'] . " LIKE '%". $search_term . "%' OR ";
+            }
+
+            // Remove trailing OR
+            $search_condition = substr($search_condition, 0, -3);
+        } else {
+            $search_condition = " ";
+        }
+
+        $query = "SELECT * FROM " . get_option('encodeon_sales_rep_table_name') . $search_condition . "ORDER BY {$attribute} {$sort} LIMIT {$limit} OFFSET {$offset}";
 
         $sales_reps = $wpdb->get_results($query);
 
@@ -74,17 +106,36 @@ class SalesRep
             data-attribute-sort="<?php echo $sort; ?>"
             data-page="<?php echo $page; ?>"
             data-limit="<?php echo $limit; ?>"
+            data-search="<?php echo $search_term; ?>"
         ></div>
 
-        <?php $this->get_pager($page, $total_pages); ?>
-
         <div class="row">
+            <div class="col-sm">
+                <?php $this->get_pager($page, $total_pages); ?>
+            </div>
+
+            <div class="col-sm">
+                <form id='sales-rep-search'>
+                    <div class="input-group">
+                        <input type="text" id="sales-rep-search-input"
+                            class="form-control" placeholder="Enter search here"
+                            value="<?php echo $search_term; ?>">
+                            
+                        <span class="input-group-btn">
+                            <button type="submit" class="btn btn-primary" style="cursor: pointer;">Search</button>
+                        </span>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="row mt-2">
             <div class="table-responsive">
                 <?php if (count($sales_reps) > 0): ?>
                     <table id="sales-rep-manager-table" class="table table-striped table-sm">
                         <thead class="thead-inverse">
                         <?php foreach($sales_reps[0] as $key => $sales_rep): ?>
-                            <th class="text-capitalize bg-primary" 
+                            <th class="text-capitalize bg-primary text-nowrap" 
                                 style="cursor: pointer"
                                 data-attribute-name="<?php echo $key; ?>"
                                 data-attribute-sort="<?php echo $sort; ?>">
@@ -104,11 +155,17 @@ class SalesRep
                         </tr>
                         <?php endforeach; ?>
                     </table>
+                <?php else: ?>
+                    <div class="col-sm">There are no matches with your search. Please try another search.</div>
                 <?php endif; ?>
             </div>
         </div>
 
-        <?php $this->get_pager($page, $total_pages); ?>
+        <div class="row mt-2">
+            <div class="col-sm">
+                <?php $this->get_pager($page, $total_pages); ?>
+            </div>
+        </div>
 
         <?php
     }
@@ -140,51 +197,49 @@ class SalesRep
         }
         ?>
 
-        <div class="row">
-            <nav aria-label="Sales Rep Pagination">
-                <ul class="pagination">
-                    <li class="page-item <?php if ($page == 1) echo "disabled" ?>" 
-                        data-page="1"
-                        data-active="<?php echo ($page == 1 ? 0 : 1); ?>">
-                        <a href="" class="page-link">
-                            1
-                            <i class="fas fa-caret-left"></i>
-                            <i class="fas fa-caret-left"></i>
-                        </a>
-                    </li>
-                    <li class="page-item <?php if ($page == 1) echo "disabled" ?>"
-                        data-page="<?php echo ($page-1); ?>"
-                        data-active="<?php echo ($page == 1 ? 0 : 1); ?>">
-                        <a href="" class="page-link">
-                            <i class="fas fa-caret-left"></i>
-                        </a>
-                    </li>
-                    <?php for($i=$pager_start; $i<=$pager_end; $i++): ?>
-                    <li class="page-item <?php if ($page == $i) echo "active" ?>" 
-                        data-page="<?php echo $i; ?>"
-                        data-active="<?php echo ($page == $i ? 0 : 1); ?>">
-                        <a href="" class="page-link"><?php echo $i; ?></a>
-                    </li>
-                    <?php endfor; ?>
-                    <li class="page-item <?php if ($page == $total_pages) echo "disabled" ?>"
-                        data-page="<?php echo ($page+1); ?>"
-                        data-active="<?php echo ($page == $total_pages ? 0 : 1); ?>">
-                        <a href="" class="page-link">
-                            <i class="fas fa-caret-right"></i>
-                        </a>
-                    </li>
-                    <li class="page-item <?php if ($page == $total_pages) echo "disabled" ?>" 
-                        data-page="<?php echo $total_pages; ?>"
-                        data-active="<?php echo ($page == $total_pages ? 0 : 1); ?>">
-                        <a href="" class="page-link">
-                            <i class="fas fa-caret-right"></i>
-                            <i class="fas fa-caret-right"></i>
-                            <?php echo $total_pages; ?>
-                        </a>
-                    </li>
-                </ul>
-            </nav>
-        </div>
+        <nav aria-label="Sales Rep Pagination">
+            <ul class="pagination">
+                <li class="page-item text-nowrap <?php if ($page == 1) echo "disabled" ?>" 
+                    data-page="1"
+                    data-active="<?php echo ($page == 1 ? 0 : 1); ?>">
+                    <a href="" class="page-link">
+                        1
+                        <i class="fas fa-caret-left d-none d-sm-inline"></i>
+                        <i class="fas fa-caret-left d-none d-sm-inline"></i>
+                    </a>
+                </li>
+                <li class="page-item <?php if ($page == 1) echo "disabled" ?>"
+                    data-page="<?php echo ($page-1); ?>"
+                    data-active="<?php echo ($page == 1 ? 0 : 1); ?>">
+                    <a href="" class="page-link">
+                        <i class="fas fa-caret-left"></i>
+                    </a>
+                </li>
+                <?php for($i=$pager_start; $i<=$pager_end; $i++): ?>
+                <li class="page-item <?php if ($page == $i) echo "active" ?>" 
+                    data-page="<?php echo $i; ?>"
+                    data-active="<?php echo ($page == $i ? 0 : 1); ?>">
+                    <a href="" class="page-link"><?php echo $i; ?></a>
+                </li>
+                <?php endfor; ?>
+                <li class="page-item <?php if ($page == $total_pages) echo "disabled" ?>"
+                    data-page="<?php echo ($page+1); ?>"
+                    data-active="<?php echo ($page == $total_pages ? 0 : 1); ?>">
+                    <a href="" class="page-link">
+                        <i class="fas fa-caret-right"></i>
+                    </a>
+                </li>
+                <li class="page-item text-nowrap <?php if ($page == $total_pages) echo "disabled" ?>" 
+                    data-page="<?php echo $total_pages; ?>"
+                    data-active="<?php echo ($page == $total_pages ? 0 : 1); ?>">
+                    <a href="" class="page-link">
+                        <i class="fas fa-caret-right d-none d-sm-inline"></i>
+                        <i class="fas fa-caret-right d-none d-sm-inline"></i>
+                        <?php echo $total_pages; ?>
+                    </a>
+                </li>
+            </ul>
+        </nav>
         <?php
     }
 
@@ -203,28 +258,28 @@ class SalesRep
     {
         switch ($attribute) {
             case "id":
-                echo "<i class=\"fas fa-id-card\"></i>";
+                echo "<i class=\"fas fa-id-card d-none d-lg-inline\"></i>";
                 break;
             case "name":
-                echo "<i class=\"fas fa-user\"></i>";
+                echo "<i class=\"fas fa-user d-none d-lg-inline\"></i>";
                 break;
             case "email":
-                echo "<i class=\"fas fa-envelope\"></i>";
+                echo "<i class=\"fas fa-envelope d-none d-lg-inline\"></i>";
                 break;
             case "phone":
-                echo "<i class=\"fas fa-phone\"></i>";
+                echo "<i class=\"fas fa-phone d-none d-lg-inline\"></i>";
                 break;
             case "cell":
-                echo "<i class=\"fas fa-mobile\"></i>";
+                echo "<i class=\"fas fa-mobile d-none d-lg-inline\"></i>";
                 break;
             case "fax":
-                echo "<i class=\"fas fa-fax\"></i>";
+                echo "<i class=\"fas fa-fax d-none d-lg-inline\"></i>";
                 break;
             case "company":
-                echo "<i class=\"fas fa-building\"></i>";
+                echo "<i class=\"fas fa-building d-none d-lg-inline\"></i>";
                 break;
             case "url":
-                echo "<i class=\"fas fa-link\"></i>";
+                echo "<i class=\"fas fa-link d-none d-lg-inline\"></i>";
                 break;
             default:
                 break;

@@ -25,7 +25,7 @@ class ShowView
         (new \EncodeonSalesRepManager\Views\Partials\StatusMessage)->render();
         ?>
 
-        <main class="pt-4 px-4">
+        <main class="container-fluid">
             <h1>Sales Reprsentatives</h1>
             <?php $sales_rep_show = new Show; $sales_rep_show->render(); ?>
         </main>

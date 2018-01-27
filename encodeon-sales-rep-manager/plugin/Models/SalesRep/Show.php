@@ -8,13 +8,6 @@ class Show extends SalesRep
 
         <div id="table-container" class="container-fluid pt-4"></div>
 
-        <form id='test' method='post'>
-            <?php wp_nonce_field('test', 'test_nonce'); ?>
-            <input name="action" value="test_action" type="hidden">
-            <input name="option" value="1" type="hidden">
-            <button type='submit'>Test</button>
-        </form>
-
         <script type="text/javascript">
             jQuery(document).ready(function($) {
 
@@ -24,6 +17,7 @@ class Show extends SalesRep
                     attribute="id", 
                     sort="ASC",
                     page=1,
+                    search_input="",
                     limit=50,
                 ) {
                     var form_data = new FormData();
@@ -35,6 +29,7 @@ class Show extends SalesRep
                     form_data.append("attribute", attribute);
                     form_data.append("sort", sort);
                     form_data.append("page", page);
+                    form_data.append("search_input", search_input);
                     form_data.append("limit", limit);
 
                     $.ajax({
@@ -57,10 +52,11 @@ class Show extends SalesRep
                     var attribute = this.dataset.attributeName;
                     var sort = this.dataset.attributeSort;
                     var page = $("#table-data").attr("data-page");
+                    var search = $("#table-data").attr("data-search");
 
                     // Reverse the sort order of the current sort.
                     if (sort === "ASC") { sort = "DESC" } else { sort = "ASC" }
-                    generate_sales_rep_table(attribute, sort, page);
+                    generate_sales_rep_table(attribute, sort, page, search);
                 });
 
                 // AJAX call for changing page number
@@ -69,28 +65,25 @@ class Show extends SalesRep
                     var attribute = $("#table-data").attr("data-attribute-name");
                     var sort = $("#table-data").attr("data-attribute-sort");
                     var page = this.dataset.page;
+                    var search = $("#table-data").attr("data-search");
+
                     var active = this.dataset.active;
 
                     if (active == 1) {
-                        generate_sales_rep_table(attribute, sort, page);
+                        generate_sales_rep_table(attribute, sort, page, search);
                     }
                 });
 
-                $('form').on('submit', function(event) {
+                // AJAX call for search
+                $("#table-container").on("click", "#sales-rep-search button", function(event) {
                     event.preventDefault();
-                    $.ajax({
-                        url: "<?php echo admin_url('admin-ajax.php'); ?>",
-                        type: "post",
-                        data: new FormData(this),
-                        processData: false,
-                        contentType: false,
-                        success: function(data) {
-                            $(".status-message").html("<div class='alert alert-success'>" + data + "</div>");
-                        },
-                        error: function(xhr, desc, err) {
-                            $(".status-message").html("<div class='alert alert-danger'>Error: " + err + "</div>");
-                        }
-                    });
+                    var attribute = $("#table-data").attr("data-attribute-name");
+                    var sort = $("#table-data").attr("data-attribute-sort");
+                    var page = $("#table-data").attr("data-page");
+                    var active = $("#table-data").attr("data-active");
+                    var search_input = document.getElementById("sales-rep-search-input").value;
+
+                    generate_sales_rep_table(attribute, sort, page, search_input);
                 });
             });
         </script>
