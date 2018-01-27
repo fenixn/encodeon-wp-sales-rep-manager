@@ -14,6 +14,7 @@ class Plugin
     {
         new Views\Admin\MainMenu;
         new Views\Admin\SalesRep\ShowView;
+        new Views\Admin\SalesRep\CreateView;
     }
 
     public function run_controllers()
