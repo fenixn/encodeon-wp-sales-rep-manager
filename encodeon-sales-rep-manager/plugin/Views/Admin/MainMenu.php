@@ -50,7 +50,16 @@ class MainMenu
     {
         ?>
 
-        <h2>Show List of Menu items here</h2>
+        <main class="container-fluid mt-2">
+            <h1>Sales Representatives Control Panel</h1>
+
+            <div class="jumbotron">
+                <a href="admin.php?page=sales-rep-manager-list">
+                    <button type="button" class="btn btn-primary">Sale Representatives Table</button>
+                </a>
+            </div>
+
+        </main>
 
         <?php 
     }
