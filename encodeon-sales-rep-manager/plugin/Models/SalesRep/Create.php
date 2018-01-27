@@ -19,6 +19,16 @@ class Create extends SalesRep
          * are many outliers. Use prepared SQL statements to insert.
          */
 
+        // Validate required inputs
+        $required_inputs = ['name', 'state'];
+
+        foreach($required_inputs as $required_input) {
+            if($$required_input == "") {
+                $error_message = "The " . $required_input . " field must not be empty. It is a required input.";
+                $this->show_error($error_message);
+            }
+        }
+
         // Validate email
         if($email != "") {
             if(!preg_match("/^\S+@\S+\.\S+$/", $email)) {
@@ -49,7 +59,7 @@ class Create extends SalesRep
         $accepted_states = ['AK', 'AL', 'AR', 'AZ', 'CA', 'CO', 'CT', 'DC', 'DE', 'FL', 'GA', 'HI', 'IA', 'ID', 'IL', 'IN', 'KS', 'KY', 'LA', 'MA', 'MD', 'ME', 'MI', 'MN', 'MO', 'MS', 'MT', 'NC', 'ND', 'NE', 'NH', 'NJ', 'NM', 'NV', 'NY', 'OH', 'OK', 'OR', 'PA', 'RI', 'SC', 'SD', 'TN', 'TX', 'UT', 'VA', 'VT', 'WA', 'WI', 'WV', 'WY'];
 
         if(!in_array($state, $accepted_states) && strlen($state) !== 2) {
-            $this->show_error("Invalid state");
+            $this->show_error("Invalid input for the State.");
             die();
         }
 
@@ -74,10 +84,24 @@ class Create extends SalesRep
             die();
         }
 
-        /*
-        foreach($_REQUEST as $key => $value) {
-            echo $key . "=" . $value . "<br>";
+        $prepared_statement = "INSERT INTO " . get_option('encodeon_sales_rep_table_name') . " (name, email, phone, cell, fax, company, url, address1, address2, city, state, zip) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)";
+
+        global $wpdb;
+        $result = $wpdb->query($wpdb->prepare($prepared_statement, $name, $email, $phone, $cell, $fax, $company, $url, $address1, $address2, $city, $state, $zip));
+
+        if ($result === false) {
+            $this->show_error("The data failed to be inserted into the database. This may be a temporary connection error. Try again. If the issue persists, contact the administrator.");
+            die();
+        } else if ($result === 0) {
+            $this->show_error("Connection to the database succeeded, but no data was inserted. Check your inputs and try again.");
+            die();
+        } else {
+            $success_message = "The sales representative " . $name . " has been added to the database. The form has been reset so you may add another sales rep.";
+
+            $after_script = "$('#create-new-sales-rep').trigger('reset');";
+
+            $this->show_success($success_message, $after_script);
+            die();
         }
-        */
     }
 }

@@ -36,7 +36,7 @@ class CreateView
 
                     <div class="row">
                         <div class="form-group col-md-6">
-                            <label for="name">Sales Representative Name</label>
+                            <label for="name">Sales Representative Name <span class="required">*</span></label>
                             <input type="text" class="form-control" name="name" placeholder="Enter name">
                         </div>
                         <div class="form-group col-md-6">
@@ -82,7 +82,7 @@ class CreateView
                             <input type="text" class="form-control" name="city" placeholder="Enter city name">
                         </div>
                         <div class="form-group col-md-4">
-                            <label for="state">State</label>
+                            <label for="state">State <span class="required">*</span></label>
                             <select name="state" class="form-control">
                                 <option value="" selected="selected" disabled>Select State</option>
                                 <option value="AL">Alabama</option>
