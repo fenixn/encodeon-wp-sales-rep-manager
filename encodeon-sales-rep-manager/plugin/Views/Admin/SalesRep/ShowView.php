@@ -15,7 +15,7 @@ class ShowView
             'Sales Rep List', 
             'List', 
             'manage_options', 
-            'sales-rep-mananger-list', 
+            'sales-rep-manager-list', 
             array($this, 'submenu_page') 
         );
     }

@@ -290,7 +290,8 @@ class SalesRep
         <script type="text/javascript">
             jQuery(document).ready(function($) {
                 $(".status-message").html("<div class='alert alert-danger'>Error: " + 
-                    "<?php echo $error; ?>" + "</div>");
+                    "<?php echo $error; ?>" + 
+                    " <a href='admin.php?page=sales-rep-manager-list'>Click here to refresh the page.</a></div>");
             });
         </script>
         <?php
