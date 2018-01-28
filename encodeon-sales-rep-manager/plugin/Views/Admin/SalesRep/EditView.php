@@ -32,6 +32,13 @@ class EditView
 
             <?php (new \EncodeonSalesRepManager\Views\Partials\StatusMessage)->render(); ?>
 
+            <?php
+                if(is_null($sales_rep)) {
+                    $sales_rep_model->show_error("Attempting to edit a sales rep that does not exist in the database.");
+                    die();
+                }
+            ?>
+
             <div class="card col-md-12">
                 <form id="edit-new-sales-rep" method="post">
 
@@ -114,9 +121,36 @@ class EditView
                                 <i class="fas fa-plus-circle"></i>
                                 Edit sales rep
                             </button>
+
+                            <button type="button" data-toggle="modal" data-target="#delete-modal" class="btn btn-primary ">
+                                <i class="fas fa-trash"></i>
+                                Delete
+                            </button>
                         </div>
                     </div>
                 </form>
+            </div>
+
+            <div class="modal fade" id="delete-modal" tabindex="-1" role="dialog">
+                <div class="modal-dialog .modal-dialog-centered h-100 d-flex flex-column justify-content-center my-0" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Are you sure you want to delete this sales rep?</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <form id="delete-sales-rep" method="post">
+                            <input type="hidden" name="action" value="delete_sales_rep">
+                            <input type="hidden" name="delete_sales_rep_nonce" value="<?php echo wp_create_nonce('delete_sales_rep'); ?>">
+                            <input type="hidden" name="id" value="<?php echo $sales_rep['id']; ?>">
+                            <div class="modal-body text-center">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                <button type="submit" class="btn btn-danger">Delete</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
         </main>
 
@@ -126,6 +160,23 @@ class EditView
                 $('#edit-new-sales-rep').on("click", "button[type='submit']", function(event) {
                     event.preventDefault();
                     var form_data = $("#edit-new-sales-rep").serialize();
+                    $.ajax({
+                        url: "<?php echo admin_url('admin-ajax.php'); ?>",
+                        type: "post",
+                        data: form_data,
+                        success: function(data) {
+                            $(".status-message").html(data);
+                        },
+                        error: function(xhr, desc, err) {
+                            $(".status-message").html("<div class='alert alert-danger'>Error: " + err + "</div>");
+                        }
+                    });
+                });
+
+                $('#delete-sales-rep').on("click", "button[type='submit']", function(event) {
+                    event.preventDefault();
+                    $("#delete-modal").modal("toggle");
+                    var form_data = $("#delete-sales-rep").serialize();
                     $.ajax({
                         url: "<?php echo admin_url('admin-ajax.php'); ?>",
                         type: "post",

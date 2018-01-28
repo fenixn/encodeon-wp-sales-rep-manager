@@ -33,6 +33,13 @@ class MainMenu
                 array(),
                 '4.00'
             );
+
+            wp_enqueue_script(
+                'bootstrap',
+                plugins_url('encodeon-sales-rep-manager/vendor/twbs/bootstrap/dist/js/bootstrap.min.js'),
+                array('jquery'),
+                '4.00'
+            );
         }
 
         // Enqueue FontAwesome
