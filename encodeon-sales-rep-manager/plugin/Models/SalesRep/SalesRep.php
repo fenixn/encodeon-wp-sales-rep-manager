@@ -2,6 +2,19 @@
 namespace EncodeonSalesRepManager\Models\SalesRep;
 class SalesRep
 {
+    public function get_sales_rep($sales_rep_id)
+    {
+        global $wpdb;
+        $prepared_statement = "SELECT * FROM " . get_option("encodeon_sales_rep_table_name") . " WHERE id = %s";
+
+        return $wpdb->get_row(
+            $wpdb->prepare(
+                $prepared_statement, 
+                $sales_rep_id
+            ), ARRAY_A
+        );
+    }
+
     public function generate_sales_rep_table()
     {
         global $wpdb;
@@ -146,10 +159,14 @@ class SalesRep
                         </thead>
                         <?php foreach($sales_reps as $sales_rep): ?>
                         <tr>
-                            <?php foreach($sales_rep as $sales_rep_attribute): ?>
-                                <td>
+                            <?php foreach($sales_rep as $key => $sales_rep_attribute): ?>
+                            <td>                                
+                                <?php if ($key == 'name'): ?>
+                                    <a href="admin.php?page=sales-rep-manager-edit&id=<?php echo $sales_rep['id']; ?>"><?php echo $sales_rep_attribute; ?></a>
+                                <?php else: ?>
                                     <?php echo $sales_rep_attribute; ?>
-                                </td>
+                                <?php endif; ?>
+                            </td>
                             <?php endforeach; ?>
                         </tr>
                         <?php endforeach; ?>
