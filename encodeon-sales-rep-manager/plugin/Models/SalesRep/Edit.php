@@ -5,8 +5,8 @@ class Edit extends SalesRep
     public function process_request()
     {
         // Anti CSRF
-        if (wp_verify_nonce($_REQUEST['create_sales_rep_nonce'], "create_sales_rep") === false) {
-            $this->show_error("Invalid nonce for the create sales rep request.");
+        if (wp_verify_nonce($_REQUEST['edit_sales_rep_nonce'], "edit_sales_rep") === false) {
+            $this->show_error("Invalid nonce for the edit sales rep request.");
             die();
         }
 
@@ -84,21 +84,21 @@ class Edit extends SalesRep
             die();
         }
 
-        $prepared_statement = "INSERT INTO " . get_option('encodeon_sales_rep_table_name') . " (name, email, phone, cell, fax, company, url, address1, address2, city, state, zip) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)";
+        $prepared_statement = "UPDATE " . get_option('encodeon_sales_rep_table_name') . " SET name = %s, email = %s, phone = %s, cell = %s, fax = %s, company = %s, url = %s, address1 = %s, address2 = %s, city = %s, state = %s, zip = %s WHERE id = %s";
 
         global $wpdb;
-        $result = $wpdb->query($wpdb->prepare($prepared_statement, $name, $email, $phone, $cell, $fax, $company, $url, $address1, $address2, $city, $state, $zip));
+        $result = $wpdb->query($wpdb->prepare($prepared_statement, $name, $email, $phone, $cell, $fax, $company, $url, $address1, $address2, $city, $state, $zip, $id));
 
         if ($result === false) {
             $this->show_error("The data failed to be inserted into the database. This may be a temporary connection error. Try again. If the issue persists, contact the administrator.");
             die();
         } else if ($result === 0) {
-            $this->show_error("Connection to the database succeeded, but no data was inserted. Check your inputs and try again.");
+            $this->show_error("Connection to the database succeeded, but no data was updated. Check your inputs and try again.");
             die();
         } else {
-            $success_message = "The sales representative " . $name . " has been added to the database. The form has been reset so you may add another sales rep.";
+            $success_message = "The sales representative " . $name . " has been updated.";
 
-            $after_script = "$('#create-new-sales-rep').trigger('reset');";
+            $after_script = "$('.alert').append(' <a href=\'admin.php?page=sales-rep-manager\'>Click here to return to sales rep table.</a>')";
 
             $this->show_success($success_message, $after_script);
             die();

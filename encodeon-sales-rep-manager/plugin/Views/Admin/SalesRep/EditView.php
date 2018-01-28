@@ -37,6 +37,7 @@ class EditView
 
                     <input type="hidden" name="action" value="edit_sales_rep">
                     <input type="hidden" name="edit_sales_rep_nonce" value="<?php echo wp_create_nonce('edit_sales_rep'); ?>">
+                    <input type="hidden" name="id" value="<?php echo $sales_rep['id']; ?>">
 
                     <div class="row">
                         <div class="form-group col-md-6">
@@ -121,7 +122,7 @@ class EditView
 
         <script type="text/javascript">
             jQuery(document).ready(function($) {
-                // AJAX call for creating new sales rep
+                // AJAX call for editing new sales rep
                 $('#edit-new-sales-rep').on("click", "button[type='submit']", function(event) {
                     event.preventDefault();
                     var form_data = $("#edit-new-sales-rep").serialize();
