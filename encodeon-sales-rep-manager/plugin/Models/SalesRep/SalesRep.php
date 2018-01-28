@@ -70,7 +70,7 @@ class SalesRep
             $table_headers = $wpdb->get_results("SHOW COLUMNS FROM " . get_option('encodeon_sales_rep_table_name'), ARRAY_A);
 
             foreach($table_headers as $table_header) {
-                $search_condition .= $table_header['Field'] . " LIKE '%". $search_term . "%' OR ";
+                $search_condition .= $table_header['Field'] . " LIKE %s OR ";
             }
 
             // Remove trailing OR
@@ -79,12 +79,24 @@ class SalesRep
             $search_condition = " ";
         }
 
-        /**
-         * MUST CONVERT THIS TO PREPARED SQL BEFORE PUSHING TO PRODUCTION!!!!
-         */
-        $query = "SELECT * FROM " . get_option('encodeon_sales_rep_table_name') . $search_condition . "ORDER BY {$attribute} {$sort} LIMIT {$limit} OFFSET {$offset}";
+        $like_search = '%' . $wpdb->esc_like($search_term) . '%';
 
-        $sales_reps = $wpdb->get_results($query);
+        $prepared_statement = "SELECT * FROM " . get_option("encodeon_sales_rep_table_name") . $search_condition . " ORDER BY {$attribute} {$sort} LIMIT {$limit} OFFSET {$offset}";
+
+        $sales_reps = $wpdb->get_results(
+            $wpdb->prepare(
+                $prepared_statement, 
+                $like_search, $like_search, $like_search, $like_search, $like_search, $like_search, $like_search, $like_search, $like_search, $like_search, $like_search, $like_search, $like_search
+            ), ARRAY_A
+        );
+
+        if ($sales_reps === false) {
+            $this->show_error("There was an error connecting to the database. This may be a temporary issue. Please try again and contact the administrator only if the issue persists.");
+            die();
+        } else if ($sales_reps === 0) {
+            $this->show_error("Connection to the database succeeded, but no data was returned. Check your inputs and try again.");
+            die();
+        }
 
         ?>
 
