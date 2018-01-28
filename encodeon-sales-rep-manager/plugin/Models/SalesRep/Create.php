@@ -10,6 +10,12 @@ class Create extends SalesRep
             die();
         }
 
+        // Authorize user
+        if(!current_user_can('manage_options')) {
+            $this->show_error("Invalid authorization.");
+            die();
+        };
+
         foreach($_REQUEST as $key => $value) {
             $$key = htmlspecialchars($value);
         }

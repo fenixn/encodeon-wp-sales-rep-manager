@@ -17,6 +17,11 @@ class SalesRep
 
     public function generate_sales_rep_table()
     {
+        if(!current_user_can('manage_options')) {
+            $this->show_error("Invalid authorization.");
+            die();
+        };
+
         global $wpdb;
 
         $attribute = $_REQUEST['attribute'];

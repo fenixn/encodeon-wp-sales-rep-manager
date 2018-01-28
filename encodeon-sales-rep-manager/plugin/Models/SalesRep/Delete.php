@@ -10,6 +10,12 @@ class Delete extends SalesRep
             die();
         }
 
+        // Authorize user
+        if(!current_user_can('manage_options')) {
+            $this->show_error("Invalid authorization.");
+            die();
+        };
+
         $sales_rep_id = $_REQUEST['id'];
 
         // Test if id is a positive integer
