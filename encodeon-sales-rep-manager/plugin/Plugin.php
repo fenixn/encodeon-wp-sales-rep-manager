@@ -13,7 +13,6 @@ class Plugin
     public function on_wp_admin_menu()
     {
         new Views\Admin\MainMenu;
-        new Views\Admin\SalesRep\ShowView;
         new Views\Admin\SalesRep\CreateView;
     }
 

@@ -1,5 +1,6 @@
 <?php
 namespace EncodeonSalesRepManager\Views\Admin;
+use EncodeonSalesRepManager\Models\SalesRep\Show;
 class MainMenu
 {
     public function __construct()
@@ -51,14 +52,11 @@ class MainMenu
         ?>
 
         <main class="container-fluid mt-2">
-            <h1>Sales Representatives Control Panel</h1>
+            <h1>Sales Representatives</h1>
 
-            <div class="jumbotron">
-                <a href="admin.php?page=sales-rep-manager-list">
-                    <button type="button" class="btn btn-primary">Sale Representatives Table</button>
-                </a>
-            </div>
+            <?php (new \EncodeonSalesRepManager\Views\Partials\StatusMessage)->render(); ?>
 
+            <?php $sales_rep_show = new Show; $sales_rep_show->render(); ?>
         </main>
 
         <?php 

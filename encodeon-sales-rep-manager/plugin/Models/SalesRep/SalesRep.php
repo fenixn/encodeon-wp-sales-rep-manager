@@ -290,7 +290,7 @@ class SalesRep
         $error_html = "<div class='alert alert-danger'>Error: " . $error; 
         
         if ($refresh) {
-            $error_html .= " <a href='admin.php?page=sales-rep-manager-list'>Click here to refresh the page.</a>";
+            $error_html .= " <a href='admin.php?page=sales-rep-manager'>Click here to refresh the page.</a>";
         }
 
         $error_html .= "</div>";
