@@ -8,13 +8,15 @@ class Plugin
 
         add_action('admin_menu', array($this, 'on_wp_admin_menu'));
 
+        new Views\Frontend\SalesRep\Map;
+
     }
 
     public function on_wp_admin_menu()
     {
         new Views\Admin\MainMenu;
         new Views\Admin\SalesRep\CreateView;
-        new Views\Admin\SalesRep\EditView; 
+        new Views\Admin\SalesRep\EditView;
     }
 
     public function run_controllers()

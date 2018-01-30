@@ -64,7 +64,7 @@ class CreateView
                             <input type="text" class="form-control" name="company" placeholder="Enter company name">
                         </div>
                         <div class="form-group col-md-6">
-                            <label for="url">Email</label>
+                            <label for="url">Website</label>
                             <input type="url" class="form-control" name="url" placeholder="Enter website url">
                         </div>
                     </div>
