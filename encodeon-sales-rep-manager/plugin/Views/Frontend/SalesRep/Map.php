@@ -12,6 +12,21 @@ class Map
         ?>
         <div id="vmap" class="col-md-12"></div>
 
+        <div class="modal fade" id="sales-rep-modal" tabindex="-1" role="dialog">
+            <div class="modal-dialog .modal-dialog-centered h-100 d-flex flex-column justify-content-center my-0 col-md-10" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title"></h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <script type="text/javascript">
             (function($) {
                 $(document).ready(function() {
@@ -32,20 +47,47 @@ class Map
                         borderWidth: 2,
                         color: '#CCC',
                         enableZoom: false,
-                        hoverColor: '#39F',
+                        hoverColor: '#29F',
                         hoverOpacity: null,
                         normalizeFunction: 'linear',
-                        selectedColor: '#36F',
+                        selectedColor: '#07E',
                         selectedRegions: null,
                         showTooltip: true,
                         onRegionClick: function(element, code, region)
                         {
-                            var message = 'You clicked "'
-                                + region
-                                + '" which has the code: '
-                                + code.toUpperCase();
+                            function resize_modal() {
+                                $(".modal-dialog").css("max-width", $(".page-content").width());
+                            }
+                            resize_modal();
+                            window.addEventListener("resize", function() {
+                                resize_modal();
+                            });
 
-                            console.log(message);
+
+                            $(".modal-title").html(region + " Sales Representatives");
+                            $("#sales-rep-modal").modal("toggle");
+
+                            var form_data = new FormData();
+                            form_data.append("action", "get_state_sales_reps");
+                            form_data.append(
+                                "get_state_sales_reps_nonce", 
+                                "<?php echo wp_create_nonce('get_state_sales_reps'); ?>"
+                            );
+                            form_data.append("state", code);
+
+                            $.ajax({
+                                url: "<?php echo admin_url('admin-ajax.php'); ?>",
+                                type: "post",
+                                data: form_data,
+                                processData: false,
+                                contentType: false,
+                                success: function(data) {
+                                    $(".modal-body").html(data);
+                                },
+                                error: function(xhr, desc, err) {
+                                    $(".modal-body").html("<div class='alert alert-danger'>Error: " + err + "</div>");
+                                }
+                            });
                         }
                     });
                 });

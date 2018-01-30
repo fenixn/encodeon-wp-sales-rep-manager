@@ -22,6 +22,24 @@ class Plugin
         new Views\Frontend\SalesRep\Map;
 
         // Enqueue Bootstrap. Does a cursory check first to see if a bootstrap handle already exists
+        if( ( ! wp_style_is( 'bootstrap', 'queue' ) ) && 
+            ( ! wp_style_is( 'bootstrap', 'done' ) ) ) {
+            wp_enqueue_style(
+                'bootstrap',
+                plugins_url('encodeon-sales-rep-manager/vendor/twbs/bootstrap/dist/css/bootstrap.min.css'),
+                array(),
+                '4.00'
+            );
+
+            wp_enqueue_script(
+                'bootstrap',
+                plugins_url('encodeon-sales-rep-manager/vendor/twbs/bootstrap/dist/js/bootstrap.min.js'),
+                array('jquery'),
+                '4.00'
+            );
+        }
+
+        // Enqueue Jquery Vector Map
         if((!wp_style_is('jqvmap', 'queue')) && 
            (!wp_style_is('jqvmap', 'done'))) {
             wp_enqueue_style(

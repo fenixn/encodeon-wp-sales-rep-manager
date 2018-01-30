@@ -15,6 +15,86 @@ class SalesRep
         );
     }
 
+    public function get_state_sales_reps()
+    {
+        // Anti CSRF
+        if (wp_verify_nonce($_REQUEST['get_state_sales_reps_nonce'], "get_state_sales_reps") === false) {
+            $this->show_error("Invalid nonce for this request.", true);
+            die();
+        }
+
+        $state = $_REQUEST['state'];
+
+        $accepted_states = ['AK', 'AL', 'AR', 'AZ', 'CA', 'CO', 'CT', 'DC', 'DE', 'FL', 'GA', 'HI', 'IA', 'ID', 'IL', 'IN', 'KS', 'KY', 'LA', 'MA', 'MD', 'ME', 'MI', 'MN', 'MO', 'MS', 'MT', 'NC', 'ND', 'NE', 'NH', 'NJ', 'NM', 'NV', 'NY', 'OH', 'OK', 'OR', 'PA', 'RI', 'SC', 'SD', 'TN', 'TX', 'UT', 'VA', 'VT', 'WA', 'WI', 'WV', 'WY'];
+
+        if(!in_array($state, $accepted_states) && strlen($state) !== 2) {
+            echo "Invalid input for the State.";
+            die();
+        }
+
+        $prepared_statement = "SELECT * FROM " . get_option("encodeon_sales_rep_table_name") . " WHERE state = %s";
+
+        global $wpdb;
+
+        $sales_reps = $wpdb->get_results(
+            $wpdb->prepare(
+                $prepared_statement, 
+                $state
+            ), ARRAY_A
+        );
+
+        if ($sales_reps === false) {
+            $this->show_error("There was an error connecting to the database. This may be a temporary issue. Please try again and contact the administrator only if the issue persists.");
+            die();
+        } else {
+            ?>
+            <div class='container'>
+            <?php if(count($sales_reps) == 0): ?>
+                We currently do not have a sales representative for this state."
+            <?php else: ?>
+                <div class='row'>
+                    <?php foreach($sales_reps as $sales_rep): ?>
+                    <div class="col-md-4">
+                        <div class="card-block text-left">
+                            <?php if($sales_rep['company'] != ""): ?>
+                            <div class="bold"><?php echo $sales_rep['company']; ?></div>
+                            <?php endif; ?>
+
+                            <?php if($sales_rep['name'] != ""): ?>
+                            <div>Name: <?php echo $sales_rep['name']; ?></div>
+                            <?php endif; ?>
+                            <?php if($sales_rep['email'] != ""): ?>
+                            <div>Email: <a href="mailto:<?php echo $sales_rep['email']; ?>"><?php echo $sales_rep['email']; ?></a></div>
+                            <?php endif; ?>
+                            
+                            <?php if($sales_rep['phone'] != ""): ?>
+                            <div>Phone: <a href="tel:1<?php echo $sales_rep['phone']; ?>"><?php echo $this->get_formatted_phone_number($sales_rep['phone']); ?></a></div>
+                            <?php endif; ?>
+                            <?php if($sales_rep['cell'] != ""): ?>
+                            <div>Cell: <a href="tel:1<?php echo $sales_rep['cell']; ?>"><?php echo $this->get_formatted_phone_number($sales_rep['cell']); ?></a></div>
+                            <?php endif; ?>
+                            <?php if($sales_rep['fax'] != ""): ?>
+                            <div>Fax: <a href="tel:1<?php echo $sales_rep['fax']; ?>"><?php echo $this->get_formatted_phone_number($sales_rep['fax']); ?></a></div>
+                            <?php endif; ?>
+
+
+                            <?php if($sales_rep['address1'] != ""): ?>
+                            <div><?php echo $sales_rep['address1']; ?></div>
+                            <?php if($sales_rep['address2'] != ""): ?>
+                            <div><?php echo $sales_rep['address2']; ?></div>
+                            <?php endif; ?>
+                            <div><?php echo $sales_rep['city']; ?>, <?php echo $sales_rep['state']; ?> <?php echo $sales_rep['zip']; ?></div>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+                    <?php endforeach; ?>
+                </div>
+            <?php endif; ?>
+            </div>
+            <?php
+        }
+    }
+
     public function generate_sales_rep_table()
     {
         if(!current_user_can('manage_options')) {
@@ -304,6 +384,15 @@ class SalesRep
                 break;
             default:
                 break;
+        }
+    }
+
+    public function get_formatted_phone_number($phone_number) {
+        if (strlen($phone_number) == 10 && preg_match("/^\d{10}$/", $phone_number)) {
+            $formatted_phone_number = "(" . substr($phone_number, 0, 3) . ") " . substr($phone_number, 3, 3) . "-" . substr($phone_number, 6, 4);
+            return $formatted_phone_number;
+        } else {
+            return $phone_number;
         }
     }
 

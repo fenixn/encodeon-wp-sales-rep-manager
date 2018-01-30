@@ -12,6 +12,8 @@ class SalesRepAjaxController
         add_action('wp_ajax_create_sales_rep', array($this, 'create_sales_rep'));
         add_action('wp_ajax_edit_sales_rep', array($this, 'edit_sales_rep'));
         add_action('wp_ajax_delete_sales_rep', array($this, 'delete_sales_rep'));
+        add_action('wp_ajax_get_state_sales_reps', array($this, 'get_state_sales_reps'));
+        add_action('wp_ajax_nopriv_get_state_sales_reps', array($this, 'get_state_sales_reps'));
     }
 
     public function generate_sales_rep_table()
@@ -39,6 +41,13 @@ class SalesRepAjaxController
     {
         $sales_rep_delete = new Delete;
         $sales_rep_delete->process_request();
+        die();
+    }
+
+    public function get_state_sales_reps()
+    {
+        $sales_rep_model = new SalesRep;
+        $sales_rep_model->get_state_sales_reps();
         die();
     }
 }
