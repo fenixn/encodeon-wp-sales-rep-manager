@@ -20,3 +20,4 @@
 !/encodeon-sales-rep-manager/vendor
 /encodeon-sales-rep-manager/vendor/*
 !/encodeon-sales-rep-manager/vendor/fontawesome
+!/encodeon-sales-rep-manager/vendor/jqvmap-master
