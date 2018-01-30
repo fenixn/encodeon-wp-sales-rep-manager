@@ -2,6 +2,8 @@
 namespace EncodeonSalesRepManager\Views\Admin\SalesRep;
 class Import
 {
+    protected $table = 2;
+
     public function __construct()
     {
         $this->add_submenu();
@@ -86,9 +88,93 @@ class Import
                     <div class="import-table-header">
                         <h2>Import Preview</h2>
                     </div>
-                    <div class="import-table-content"></div>
+                    <div class="import-table-content">
+                        <div id="table-container" class="container-fluid pt-4"></div>
+                    </div>
                 </div>
             </div>
+
+            <script type="text/javascript">
+            jQuery(document).ready(function($) {
+
+                generate_sales_rep_table();
+
+                function generate_sales_rep_table(
+                    attribute="id", 
+                    sort="ASC",
+                    page=1,
+                    search_input="",
+                    table=2,
+                    limit=50,
+                ) {
+                    var form_data = new FormData();
+                    form_data.append("action", "generate_sales_rep_table");
+                    form_data.append(
+                        "generate_sales_rep_table_nonce", 
+                        "<?php echo wp_create_nonce('generate_sales_rep_table'); ?>"
+                    );
+                    form_data.append("attribute", attribute);
+                    form_data.append("sort", sort);
+                    form_data.append("page", page);
+                    form_data.append("search_input", search_input);
+                    form_data.append("limit", limit);
+                    form_data.append("table", table);
+
+                    $.ajax({
+                        url: "<?php echo admin_url('admin-ajax.php'); ?>",
+                        type: "post",
+                        data: form_data,
+                        processData: false,
+                        contentType: false,
+                        success: function(data) {
+                            $("#table-container").html(data);
+                        },
+                        error: function(xhr, desc, err) {
+                            $(".status-message").html("<div class='alert alert-danger'>Error: " + err + "</div>");
+                        }
+                    });
+                }
+
+                // AJAX call for sorting the sales rep table
+                $('#table-container').on("click", "th", function(event) {
+                    var attribute = this.dataset.attributeName;
+                    var sort = this.dataset.attributeSort;
+                    var page = $("#table-data").attr("data-page");
+                    var search = $("#table-data").attr("data-search");
+
+                    // Reverse the sort order of the current sort.
+                    if (sort === "ASC") { sort = "DESC" } else { sort = "ASC" }
+                    generate_sales_rep_table(attribute, sort, page, search);
+                });
+
+                // AJAX call for changing page number
+                $("#table-container").on("click", ".page-item", function(event) {
+                    event.preventDefault();
+                    var attribute = $("#table-data").attr("data-attribute-name");
+                    var sort = $("#table-data").attr("data-attribute-sort");
+                    var page = this.dataset.page;
+                    var search = $("#table-data").attr("data-search");
+
+                    var active = this.dataset.active;
+
+                    if (active == 1) {
+                        generate_sales_rep_table(attribute, sort, page, search);
+                    }
+                });
+
+                // AJAX call for search
+                $("#table-container").on("click", "#sales-rep-search button", function(event) {
+                    event.preventDefault();
+                    var attribute = $("#table-data").attr("data-attribute-name");
+                    var sort = $("#table-data").attr("data-attribute-sort");
+                    var page = $("#table-data").attr("data-page");
+                    var active = $("#table-data").attr("data-active");
+                    var search_input = document.getElementById("sales-rep-search-input").value;
+
+                    generate_sales_rep_table(attribute, sort, page, search_input);
+                });
+            });
+        </script>
         </main>
         <?php
     }

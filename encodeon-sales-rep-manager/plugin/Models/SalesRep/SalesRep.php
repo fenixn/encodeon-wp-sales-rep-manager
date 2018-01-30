@@ -104,6 +104,20 @@ class SalesRep
 
         global $wpdb;
 
+        /**
+         * Default will generate the main sales rep table, but also provides the option 
+         * to generate the from the import table.
+         * Accepts only two options:
+         * 1 => encodeon_sales_reps
+         * 2 => encodeon_sales_reps_import
+         */
+        $table = $_REQUEST['table'];
+        if ($table == "") $table = 1;
+        if ($table != 1 && $table != 2) {
+            $this->show_error("Invalid table request.");
+            die();
+        }
+        
         $attribute = $_REQUEST['attribute'];
         $sort = $_REQUEST['sort'];
         $page = $_REQUEST['page'];
@@ -176,10 +190,16 @@ class SalesRep
         } else {
             $search_condition = " ";
         }
+        
+        if ($table == 1 ) {
+            $table_name = get_option("encodeon_sales_rep_table_name");
+        } else {
+            $table_name = get_option("encodeon_sales_rep_table_name") . "_import";
+        }
 
         $like_search = '%' . $wpdb->esc_like($search_term) . '%';
 
-        $prepared_statement = "SELECT * FROM " . get_option("encodeon_sales_rep_table_name") . $search_condition . " ORDER BY {$attribute} {$sort} LIMIT {$limit} OFFSET {$offset}";
+        $prepared_statement = "SELECT * FROM " . $table_name . $search_condition . " ORDER BY {$attribute} {$sort} LIMIT {$limit} OFFSET {$offset}";
 
         $sales_reps = $wpdb->get_results(
             $wpdb->prepare(
