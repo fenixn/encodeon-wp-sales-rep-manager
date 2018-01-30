@@ -1,6 +1,6 @@
 <?php
 namespace EncodeonSalesRepManager\Views\Admin\SalesRep;
-class CreateView
+class Create
 {
     public function __construct()
     {

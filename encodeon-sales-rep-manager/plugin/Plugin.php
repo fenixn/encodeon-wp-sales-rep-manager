@@ -13,8 +13,9 @@ class Plugin
     public function on_wp_admin_menu()
     {
         new Views\Admin\MainMenu;
-        new Views\Admin\SalesRep\CreateView;
-        new Views\Admin\SalesRep\EditView;
+        new Views\Admin\SalesRep\Create;
+        new Views\Admin\SalesRep\Edit;
+        new Views\Admin\SalesRep\Import;
     }
 
     public function frontend_enqueue_scripts()

@@ -1,7 +1,7 @@
 <?php
 namespace EncodeonSalesRepManager\Views\Admin\SalesRep;
 use EncodeonSalesRepManager\Models\SalesRep\SalesRep;
-class EditView
+class Edit
 {
     public function __construct()
     {

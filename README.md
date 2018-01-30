@@ -1,6 +1,6 @@
 # Encodeon Sales Rep Manager
 
-## Status: Unfinished
+## Status: Working but still missing planned features
 
 ## Description:
 A plugin that adds a custom table for managing sales representatives. The final plugin will have a world map display that will show all sales rep in a state when that state is clicked.
