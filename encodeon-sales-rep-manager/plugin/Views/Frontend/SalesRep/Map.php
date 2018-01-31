@@ -57,6 +57,8 @@ class Map
                         {
                             function resize_modal() {
                                 $(".modal-dialog").css("max-width", $(".page-content").width());
+                                $('.modal .modal-body').css('overflow-y', 'auto'); 
+                                $('.modal .modal-body').css('max-height', $(window).height() * 0.5);
                             }
                             resize_modal();
                             window.addEventListener("resize", function() {
