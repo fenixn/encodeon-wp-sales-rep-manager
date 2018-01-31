@@ -63,7 +63,7 @@ class Import
                             <h4>Control Panel</h4>
                             <div class="btn-toolbar" role="toolbar">
                                 <div class="btn-group mr-2" role="group" aria-label="First group">
-                                    <button type="button" class="btn btn-primary">Make Import Data Live</button>
+                                    <button data-toggle="modal" data-target="#confirm-modal" type="button" class="btn btn-primary">Make Import Data Live</button>
                                 </div>
                             </div>
                         </div>
@@ -87,6 +87,27 @@ class Import
                     </div>
                     <div class="import-table-content">
                         <div id="table-container" class="container-fluid pt-4"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal fade" id="confirm-modal" tabindex="-1" role="dialog">
+                <div class="modal-dialog .modal-dialog-centered h-100 d-flex flex-column justify-content-center my-0" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Press confirm to make the import data live, or cancel to go back to check the data.</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <form id="confirm-data-live" method="post">
+                            <input type="hidden" name="action" value="copy_sales_rep_import_to_live">
+                            <input type="hidden" name="copy_sales_rep_import_to_live_nonce" value="<?php echo wp_create_nonce('copy_sales_rep_import_to_live'); ?>">
+                            <div class="modal-body text-center">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                <button type="submit" class="btn btn-primary">Confirm</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -116,6 +137,30 @@ class Import
                         }
                     }); 
                 });
+
+                // AJAX call for copying sales rep import table to live table
+                $('#confirm-data-live').on("submit", function(event) {
+                    event.preventDefault();
+                    $('.import-log-content').prepend("Copying sales rep import table to live table...");
+
+                    $.ajax({
+                        url: "<?php echo admin_url('admin-ajax.php'); ?>",
+                        type: 'post',
+                        data: new FormData(this),
+                        processData: false,
+                        contentType: false,
+                        success: function (data, status) {
+                        if(data) {
+                            $('.import-log-content').prepend(data + "<br>");
+                            $("#confirm-modal").modal("toggle");
+                        }
+                        },
+                        error: function (xhr, desc, err) {
+                            $('.import-log-content').prepend(err + "<br>");
+                        }
+                    }); 
+                });
+                
 
                 generate_sales_rep_table();
 

@@ -16,6 +16,7 @@ class SalesRepAjaxController
         add_action('wp_ajax_get_state_sales_reps', array($this, 'get_state_sales_reps'));
         add_action('wp_ajax_nopriv_get_state_sales_reps', array($this, 'get_state_sales_reps'));
         add_action('wp_ajax_upload_sales_rep', array($this, 'upload_sales_rep'));
+        add_action('wp_ajax_copy_sales_rep_import_to_live', array($this, 'copy_sales_rep_import_to_live'));
     }
 
     public function generate_sales_rep_table()
@@ -56,7 +57,14 @@ class SalesRepAjaxController
     public function upload_sales_rep()
     {
         $sales_rep_import_model = new Import;
-        $sales_rep_import_model->process_request();
+        $sales_rep_import_model->process_upload();
+        die();
+    }
+
+    public function copy_sales_rep_import_to_live()
+    {
+        $sales_rep_import_model = new Import;
+        $sales_rep_import_model->copy_sales_rep_import_to_live();
         die();
     }
 }

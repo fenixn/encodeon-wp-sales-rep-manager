@@ -2,7 +2,7 @@
 namespace EncodeonSalesRepManager\Models\SalesRep;
 class Import extends SalesRep
 {
-    public function process_request()
+    public function process_upload()
     {
         // Anti CSRF
         if (wp_verify_nonce($_REQUEST['upload_sales_rep_nonce'], "upload_sales_rep") === false) {
@@ -81,6 +81,42 @@ class Import extends SalesRep
 
             if ($result === false) {
                 echo "There was an error attempting to run the request on the database. This may be a temporary connection error. Try again. If the issue persists, contact the administrator.";
+                die();
+            }
+        }
+    }
+
+    public function copy_sales_rep_import_to_live()
+    {
+        // Anti CSRF
+        if (wp_verify_nonce($_REQUEST['copy_sales_rep_import_to_live_nonce'], "copy_sales_rep_import_to_live") === false) {
+            echo "Invalid nonce for this request. <br>";
+            die();
+        }
+
+        // Authorize user
+        if(!current_user_can('manage_options')) {
+            $this->show_error("Invalid authorization.");
+            die();
+        };
+
+        global $wpdb;
+
+        $truncate_statement = 'TRUNCATE TABLE ' . get_option("encodeon_sales_rep_table_name");
+        $results = $wpdb->query($truncate_statement);
+
+        if ($result === false) {
+            echo "There was an error. This may be a temporary connection error. Try again. If the issue persists, contact the administrator.";
+            die();
+        } else {
+            $copy_statement = "INSERT INTO " . get_option("encodeon_sales_rep_table_name") . " SELECT * FROM " . get_option("encodeon_sales_rep_table_name") . "_import";
+
+            $results = $wpdb->query($copy_statement);
+            if ($results === false) {
+                echo "There was a fatal error! Please contact system administrator as soon as possible to resolve the issue.";
+                die();
+            } else {
+                echo "The data from the sales rep import preview has been successfully transferred into the live sales rep data.";
                 die();
             }
         }
