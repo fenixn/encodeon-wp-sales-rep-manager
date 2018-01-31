@@ -62,11 +62,11 @@ class Import
 
                         <div class="col-md-6 mt-md-0 mt-4">
                             <h4>Spreadsheet Upload</h4>
-                            <form id="upload-sales-rep">
+                            <form id="upload-sales-rep" enctype="multipart/form-data">
                                 <input type="hidden" name="action" value="upload_sales_rep">
                                 <input type="hidden" name="upload_sales_rep_nonce" value="<?php echo wp_create_nonce('upload_sales_rep'); ?>">
                                 <label class="custom-file">
-                                    <input type="file" class="custom-file-input" id="exampleInputFile" aria-describedby="fileHelp">
+                                    <input type="file" class="custom-file-input" name="file" aria-describedby="fileHelp">
                                     <span class="custom-file-control form-control-file "></span>
                                 </label>
                                 <button type="submit" class="btn btn-primary">Upload</button>
