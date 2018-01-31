@@ -62,7 +62,9 @@ class Import
 
                         <div class="col-md-6 mt-md-0 mt-4">
                             <h4>Spreadsheet Upload</h4>
-                            <form>
+                            <form id="upload-sales-rep">
+                                <input type="hidden" name="action" value="upload_sales_rep">
+                                <input type="hidden" name="upload_sales_rep_nonce" value="<?php echo wp_create_nonce('upload_sales_rep'); ?>">
                                 <label class="custom-file">
                                     <input type="file" class="custom-file-input" id="exampleInputFile" aria-describedby="fileHelp">
                                     <span class="custom-file-control form-control-file "></span>
@@ -75,7 +77,7 @@ class Import
             </div>
 
             <div class="row-fluid">
-                <div class="card col-md-12 import-log">
+                <div class="card col-md-12 import-log" style="height:300px; max-height:300px; overflow-y: scroll;">
                     <div class="import-log-header">
                         <h2>Import Logs</h2>
                     </div>
@@ -96,6 +98,29 @@ class Import
 
             <script type="text/javascript">
             jQuery(document).ready(function($) {
+
+                $('#upload-sales-rep').on('submit', function (e) {
+                    e.preventDefault();
+                    $('.import-log-content').prepend( 'Uploading your file, please wait... <br />' );
+                    
+                    $.ajax({
+                        url: "<?php echo admin_url('admin-ajax.php'); ?>",
+                        type: 'post',
+                        data: new FormData(this),
+                        processData: false,
+                        contentType: false,
+                        success: function (data, status) {
+                        if(data) {
+                            $('.import-log-content').prepend(data + "<br>");
+                        }
+                        },
+                        error: function (xhr, desc, err) {
+                            $('.import-log-content').prepend(err + "<br>");
+                        }
+                    }); 
+                });
+
+
 
                 generate_sales_rep_table();
 
