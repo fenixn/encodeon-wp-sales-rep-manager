@@ -47,20 +47,6 @@ class Import
                 <div class="card col-md-12">
                     <div class="row">
                         <div class="col-md-6">
-                            <h4>Control Panel</h4>
-                            <div class="btn-toolbar" role="toolbar">
-                                <div class="btn-group mr-2" role="group" aria-label="First group">
-                                    <button type="button" class="btn btn-primary">Controls</button>
-                                    <button type="button" class="btn btn-primary">Buttons</button>
-                                </div>
-                                <div class="btn-group mr-2" role="group" aria-label="Second group">
-                                    <button type="button" class="btn btn-primary">5</button>
-                                    <button type="button" class="btn btn-primary">6</button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-md-6 mt-md-0 mt-4">
                             <h4>Spreadsheet Upload</h4>
                             <form id="upload-sales-rep" enctype="multipart/form-data">
                                 <input type="hidden" name="action" value="upload_sales_rep">
@@ -71,6 +57,15 @@ class Import
                                 </label>
                                 <button type="submit" class="btn btn-primary">Upload</button>
                             </form>
+                        </div>
+
+                        <div class="col-md-6 mt-md-0 mt-4">
+                            <h4>Control Panel</h4>
+                            <div class="btn-toolbar" role="toolbar">
+                                <div class="btn-group mr-2" role="group" aria-label="First group">
+                                    <button type="button" class="btn btn-primary">Make Import Data Live</button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -112,6 +107,8 @@ class Import
                         success: function (data, status) {
                         if(data) {
                             $('.import-log-content').prepend(data + "<br>");
+                            generate_sales_rep_table();
+                            $('.import-log-content').prepend("Upload completed. Please check the updated Import Preview below. If the new data looks correct, click the Make Import Data Live button. <br>");
                         }
                         },
                         error: function (xhr, desc, err) {
@@ -119,8 +116,6 @@ class Import
                         }
                     }); 
                 });
-
-
 
                 generate_sales_rep_table();
 

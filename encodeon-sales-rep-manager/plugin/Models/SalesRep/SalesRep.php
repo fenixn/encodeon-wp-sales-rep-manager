@@ -266,7 +266,7 @@ class SalesRep
                         <tr>
                             <?php foreach($sales_rep as $key => $sales_rep_attribute): ?>
                             <td>                                
-                                <?php if ($key == 'name'): ?>
+                                <?php if ($key == 'name' && $table == 1): ?>
                                     <a href="admin.php?page=sales-rep-manager-edit&id=<?php echo $sales_rep['id']; ?>"><?php echo $sales_rep_attribute; ?></a>
                                 <?php else: ?>
                                     <?php echo $sales_rep_attribute; ?>
