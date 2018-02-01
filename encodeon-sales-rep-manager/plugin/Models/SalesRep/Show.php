@@ -1,6 +1,5 @@
 <?php
 namespace EncodeonSalesRepManager\Models\SalesRep;
-use EncodeonSalesRepManager\Views\Javascript\SalesRepTable;
 class Show extends SalesRep
 {
     public function render()
@@ -11,7 +10,7 @@ class Show extends SalesRep
 
         <script type="text/javascript">
         jQuery(document).ready(function($) {
-            <?php (new SalesRepTable)->render(1); ?>
+            <?php (new \EncodeonSalesRepManager\Views\Javascript\SalesRepTable)->render("live"); ?>
         });
         </script>
 

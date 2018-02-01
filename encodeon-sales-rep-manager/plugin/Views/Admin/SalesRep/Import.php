@@ -1,6 +1,5 @@
 <?php
 namespace EncodeonSalesRepManager\Views\Admin\SalesRep;
-use EncodeonSalesRepManager\Views\Javascript\SalesRepTable;
 class Import
 {
     protected $table = 2;
@@ -163,7 +162,7 @@ class Import
                     }); 
                 });
 
-                <?php (new SalesRepTable)->render(2); ?>
+                <?php (new \EncodeonSalesRepManager\Views\Javascript\SalesRepTable)->render("import"); ?>
             });
         </script>
 

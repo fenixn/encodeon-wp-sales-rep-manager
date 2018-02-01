@@ -4,12 +4,17 @@ class SalesRepTable
 {
     /**
      * Javascript for AJAX calls to generate the sales rep table.
-     * $table accepts one of two values. 
-     * 1 will generate the main sales rep table.
-     * 2 will generate the import preview table.
+     * $table accepts either "live" or "import".
+     * The "live" option will return the sales rep table with the live data.
+     * The "import" option will return the sales rep table with the import preview data
      */
-    public function render($table=1)
+    public function render($table="live")
     { 
+        if ($table == "live") {
+            $table = 1;
+        } else {
+            $table = 2;
+        }
         ?>
 
         generate_sales_rep_table();
