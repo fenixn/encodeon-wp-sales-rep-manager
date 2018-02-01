@@ -25,7 +25,7 @@ class SalesRepTable
             page=1,
             search_input="",
             table=<?php echo $table; ?>,
-            limit=50,
+            limit=<?php echo get_option('encodeon_sales_reps_table_page_limit'); ?>,
         ) {
             var form_data = new FormData();
             form_data.append("action", "generate_sales_rep_table");

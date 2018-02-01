@@ -66,7 +66,7 @@ class Export
                     });
                 });
             });
-        </script>
+            </script>
         </main>
         <?php
     }

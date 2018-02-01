@@ -1,6 +1,6 @@
 <?php
 namespace EncodeonSalesRepManager\Models\SalesRep;
-class SalesRep
+class SalesRep extends \EncodeonSalesRepManager\Plugin
 {
     public function get_sales_rep($sales_rep_id)
     {
@@ -194,7 +194,7 @@ class SalesRep
         if ($table == 1 ) {
             $table_name = get_option("encodeon_sales_reps_table_name");
         } else {
-            $table_name = get_option("encodeon_sales_reps_table_name") . "_import";
+            $table_name = get_option("encodeon_sales_reps_import_table_name");
         }
 
         $like_search = '%' . $wpdb->esc_like($search_term) . '%';
@@ -229,7 +229,7 @@ class SalesRep
 
         <div class="row">
             <div class="col-sm">
-                <?php $this->get_pager($page, $total_pages); ?>
+                <?php $this->get_pager($page, $total_pages, get_option("encodeon_sales_reps_table_pager_increment")); ?>
             </div>
 
             <div class="col-sm">
@@ -285,7 +285,7 @@ class SalesRep
 
         <div class="row mt-2">
             <div class="col-sm">
-                <?php $this->get_pager($page, $total_pages); ?>
+                <?php $this->get_pager($page, $total_pages, get_option("encodeon_sales_reps_table_pager_increment")); ?>
             </div>
         </div>
 
@@ -415,38 +415,5 @@ class SalesRep
         } else {
             return $phone_number;
         }
-    }
-
-    public function show_error($error, $refresh = false)
-    {
-        $error_html = "<div class='alert alert-danger'>Error: " . $error; 
-        
-        if ($refresh) {
-            $error_html .= " <a href='admin.php?page=sales-rep-manager'>Click here to refresh the page.</a>";
-        }
-
-        $error_html .= "</div>";
-        ?>
-
-        <script type="text/javascript">
-            jQuery(document).ready(function($) {
-                $(".status-message").html("<?php echo $error_html; ?>");
-            });
-        </script>
-        <?php
-    }
-
-    public function show_success($success, $after="")
-    {
-        $success_html = "<div class='alert alert-success'>Success: " . $success . "</div>";
-        ?>
-
-        <script type="text/javascript">
-            jQuery(document).ready(function($) {
-                $(".status-message").html("<?php echo $success_html; ?>");
-                <?php echo $after; ?>
-            });
-        </script>
-        <?php
     }
 }

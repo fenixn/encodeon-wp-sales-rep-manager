@@ -1,8 +1,8 @@
 <?php
 
 class EncodeonSalesRepManagerLoader {
-    private $version = 1.0;
-    private $db_version = 1.0;
+    private $version = "1.00";
+    private $db_version = "1.00";
 
     /**
      * Install the tables for the plugin into the database
@@ -11,8 +11,13 @@ class EncodeonSalesRepManagerLoader {
     {
         require_once ABSPATH.'wp-admin/includes/upgrade.php';
 
+        // Set version numbers
         update_option('encodeon_sales_reps_version', $this->version);
         update_option('encodeon_sales_reps_db_version', $this->db_version);
+
+        // Set some default values
+        add_option('encodeon_sales_reps_table_page_limit', 50);
+        add_option('encodeon_sales_reps_table_pager_increment', 3);
 
         // Create import and export directory in the uploads folder if it doesn't exist
         if (!file_exists(wp_upload_dir()['basedir'] . "/import")) {

@@ -71,5 +71,39 @@ class Plugin
     public function run_controllers()
     {
         new Controllers\SalesRepAjaxController;
+        new Controllers\ConfigAjaxController;
+    }
+
+    public function show_error($error, $refresh = false)
+    {
+        $error_html = "<div class='alert alert-danger'>Error: " . $error; 
+        
+        if ($refresh) {
+            $error_html .= " <a href='admin.php?page=sales-rep-manager'>Click here to refresh the page.</a>";
+        }
+
+        $error_html .= "</div>";
+        ?>
+
+        <script type="text/javascript">
+            jQuery(document).ready(function($) {
+                $(".status-message").html("<?php echo $error_html; ?>");
+            });
+        </script>
+        <?php
+    }
+
+    public function show_success($success, $after="")
+    {
+        $success_html = "<div class='alert alert-success'>Success: " . $success . "</div>";
+        ?>
+
+        <script type="text/javascript">
+            jQuery(document).ready(function($) {
+                $(".status-message").html("<?php echo $success_html; ?>");
+                <?php echo $after; ?>
+            });
+        </script>
+        <?php
     }
 }
