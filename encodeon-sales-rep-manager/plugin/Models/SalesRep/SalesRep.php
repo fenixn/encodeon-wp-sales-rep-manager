@@ -224,6 +224,7 @@ class SalesRep
             data-page="<?php echo $page; ?>"
             data-limit="<?php echo $limit; ?>"
             data-search="<?php echo $search_term; ?>"
+            data-table="<?php echo $table; ?>"
         ></div>
 
         <div class="row">
