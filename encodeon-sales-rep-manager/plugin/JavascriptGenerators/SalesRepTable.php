@@ -1,5 +1,5 @@
 <?php
-namespace EncodeonSalesRepManager\Views\Javascript;
+namespace EncodeonSalesRepManager\JavascriptGenerators;
 class SalesRepTable
 {
     /**

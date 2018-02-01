@@ -10,7 +10,7 @@ class Show extends SalesRep
 
         <script type="text/javascript">
         jQuery(document).ready(function($) {
-            <?php (new \EncodeonSalesRepManager\Views\Javascript\SalesRepTable)->render("live"); ?>
+            <?php (new \EncodeonSalesRepManager\JavascriptGenerators\SalesRepTable)->render("live"); ?>
         });
         </script>
 

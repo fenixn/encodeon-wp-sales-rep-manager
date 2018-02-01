@@ -162,7 +162,7 @@ class Import
                     }); 
                 });
 
-                <?php (new \EncodeonSalesRepManager\Views\Javascript\SalesRepTable)->render("import"); ?>
+                <?php (new \EncodeonSalesRepManager\JavascriptGenerators\SalesRepTable)->render("import"); ?>
             });
         </script>
 
