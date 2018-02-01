@@ -5,7 +5,7 @@ class SalesRep
     public function get_sales_rep($sales_rep_id)
     {
         global $wpdb;
-        $prepared_statement = "SELECT * FROM " . get_option("encodeon_sales_rep_table_name") . " WHERE id = %s";
+        $prepared_statement = "SELECT * FROM " . get_option("encodeon_sales_reps_table_name") . " WHERE id = %s";
 
         return $wpdb->get_row(
             $wpdb->prepare(
@@ -32,7 +32,7 @@ class SalesRep
             die();
         }
 
-        $prepared_statement = "SELECT * FROM " . get_option("encodeon_sales_rep_table_name") . " WHERE state = %s";
+        $prepared_statement = "SELECT * FROM " . get_option("encodeon_sales_reps_table_name") . " WHERE state = %s";
 
         global $wpdb;
 
@@ -162,7 +162,7 @@ class SalesRep
          */
 
         // Get the total number of rows first to calculate total number of pages
-        $num_rows = $wpdb->get_var("SELECT COUNT(*) FROM " . get_option('encodeon_sales_rep_table_name'));
+        $num_rows = $wpdb->get_var("SELECT COUNT(*) FROM " . get_option("encodeon_sales_reps_table_name"));
         $total_pages = ceil($num_rows/$limit);
 
         if ($page > $total_pages) {
@@ -179,7 +179,7 @@ class SalesRep
         if ($search_term != "") {
             $search_condition = " WHERE ";
         
-            $table_headers = $wpdb->get_results("SHOW COLUMNS FROM " . get_option('encodeon_sales_rep_table_name'), ARRAY_A);
+            $table_headers = $wpdb->get_results("SHOW COLUMNS FROM " . get_option("encodeon_sales_reps_table_name"), ARRAY_A);
 
             foreach($table_headers as $table_header) {
                 $search_condition .= $table_header['Field'] . " LIKE %s OR ";
@@ -192,9 +192,9 @@ class SalesRep
         }
         
         if ($table == 1 ) {
-            $table_name = get_option("encodeon_sales_rep_table_name");
+            $table_name = get_option("encodeon_sales_reps_table_name");
         } else {
-            $table_name = get_option("encodeon_sales_rep_table_name") . "_import";
+            $table_name = get_option("encodeon_sales_reps_table_name") . "_import";
         }
 
         $like_search = '%' . $wpdb->esc_like($search_term) . '%';

@@ -24,7 +24,7 @@ class Delete extends SalesRep
             die();
         }
 
-        $prepared_statement = "DELETE FROM " . get_option('encodeon_sales_rep_table_name') . " WHERE id = %s";
+        $prepared_statement = "DELETE FROM " . get_option("encodeon_sales_reps_table_name") . " WHERE id = %s";
 
         global $wpdb;
         $result = $wpdb->query($wpdb->prepare($prepared_statement, $sales_rep_id));

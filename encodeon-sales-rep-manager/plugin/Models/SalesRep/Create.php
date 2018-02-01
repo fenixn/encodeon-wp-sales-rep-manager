@@ -90,7 +90,7 @@ class Create extends SalesRep
             die();
         }
 
-        $prepared_statement = "INSERT INTO " . get_option('encodeon_sales_rep_table_name') . " (name, email, phone, cell, fax, company, url, address1, address2, city, state, zip) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)";
+        $prepared_statement = "INSERT INTO " . get_option("encodeon_sales_reps_table_name") . " (name, email, phone, cell, fax, company, url, address1, address2, city, state, zip) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)";
 
         global $wpdb;
         $result = $wpdb->query($wpdb->prepare($prepared_statement, $name, $email, $phone, $cell, $fax, $company, $url, $address1, $address2, $city, $state, $zip));

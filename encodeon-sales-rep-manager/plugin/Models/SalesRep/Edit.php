@@ -90,7 +90,7 @@ class Edit extends SalesRep
             die();
         }
 
-        $prepared_statement = "UPDATE " . get_option('encodeon_sales_rep_table_name') . " SET name = %s, email = %s, phone = %s, cell = %s, fax = %s, company = %s, url = %s, address1 = %s, address2 = %s, city = %s, state = %s, zip = %s WHERE id = %s";
+        $prepared_statement = "UPDATE " . get_option("encodeon_sales_reps_table_name") . " SET name = %s, email = %s, phone = %s, cell = %s, fax = %s, company = %s, url = %s, address1 = %s, address2 = %s, city = %s, state = %s, zip = %s WHERE id = %s";
 
         global $wpdb;
         $result = $wpdb->query($wpdb->prepare($prepared_statement, $name, $email, $phone, $cell, $fax, $company, $url, $address1, $address2, $city, $state, $zip, $id));

@@ -17,7 +17,7 @@ class Export extends SalesRep
         };
 
         global $wpdb;
-        $sql_statement = "SELECT * FROM " . get_option("encodeon_sales_rep_table_name");
+        $sql_statement = "SELECT * FROM " . get_option("encodeon_sales_reps_table_name");
         $results = $wpdb->get_results($sql_statement, ARRAY_A);
 
         if ($results === false) {

@@ -61,7 +61,7 @@ class Import extends SalesRep
         global $wpdb;
         $import_file = wp_upload_dir()["baseurl"] . '/import/salesreps.csv';
         $import_csv = array_map('str_getcsv', file($import_file));
-        $import_table = get_option("encodeon_sales_rep_table_name") . "_import";
+        $import_table = get_option("encodeon_sales_reps_table_name") . "_import";
 
         /**
          * Truncate the preview table before importing new data for preview
@@ -108,14 +108,14 @@ class Import extends SalesRep
 
         global $wpdb;
 
-        $truncate_statement = 'TRUNCATE TABLE ' . get_option("encodeon_sales_rep_table_name");
+        $truncate_statement = 'TRUNCATE TABLE ' . get_option("encodeon_sales_reps_table_name");
         $results = $wpdb->query($truncate_statement);
 
         if ($result === false) {
             echo "There was an error. This may be a temporary connection error. Try again. If the issue persists, contact the administrator.";
             die();
         } else {
-            $copy_statement = "INSERT INTO " . get_option("encodeon_sales_rep_table_name") . " SELECT * FROM " . get_option("encodeon_sales_rep_table_name") . "_import";
+            $copy_statement = "INSERT INTO " . get_option("encodeon_sales_reps_table_name") . " SELECT * FROM " . get_option("encodeon_sales_reps_table_name") . "_import";
 
             $results = $wpdb->query($copy_statement);
             if ($results === false) {
