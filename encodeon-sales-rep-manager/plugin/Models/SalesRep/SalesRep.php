@@ -48,13 +48,13 @@ class SalesRep extends \EncodeonSalesRepManager\Plugin
             die();
         } else {
             ?>
-            <div class='container'>
+            <div class='container-fluid'>
             <?php if(count($sales_reps) == 0): ?>
                 We currently do not have a sales representative for this state."
             <?php else: ?>
-                <div class='row'>
+                <div class="row">
                     <?php foreach($sales_reps as $sales_rep): ?>
-                    <div class="col-md-4">
+                    <div class="col-6 col-md-4 col-xl-3">
                         <div class="card-block text-left">
                             <?php if($sales_rep['company'] != ""): ?>
                             <div class="bold"><?php echo $sales_rep['company']; ?></div>

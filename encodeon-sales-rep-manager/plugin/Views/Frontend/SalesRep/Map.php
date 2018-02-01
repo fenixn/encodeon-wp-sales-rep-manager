@@ -10,10 +10,10 @@ class Map
     public function render()
     {
         ?>
-        <div id="vmap" class="col-md-12"></div>
+        <div id="vmap" class="col-12 col-xl-8 offset-xl-2"></div>
 
         <div class="modal fade" id="sales-rep-modal" tabindex="-1" role="dialog">
-            <div class="modal-dialog .modal-dialog-centered h-100 d-flex flex-column justify-content-center my-0 col-md-10" role="document">
+            <div class="modal-dialog .modal-dialog-centered h-100 d-flex flex-column justify-content-center my-0" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title"></h5>
@@ -22,6 +22,13 @@ class Map
                         </button>
                     </div>
                     <div class="modal-body">
+                    </div>
+                    <div class="modal-footer justify-content-center">
+                        <div>
+                            <button type="button" class="btn btn-lg btn-danger" data-dismiss="modal">
+                            Close
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
