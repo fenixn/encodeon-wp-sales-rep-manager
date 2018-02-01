@@ -40,7 +40,7 @@ class Edit
             ?>
 
             <div class="card col-md-12">
-                <form id="edit-new-sales-rep" method="post">
+                <form id="edit-sales-rep" method="post">
 
                     <input type="hidden" name="action" value="edit_sales_rep">
                     <input type="hidden" name="edit_sales_rep_nonce" value="<?php echo wp_create_nonce('edit_sales_rep'); ?>">
@@ -157,9 +157,11 @@ class Edit
         <script type="text/javascript">
             jQuery(document).ready(function($) {
                 // AJAX call for editing new sales rep
-                $('#edit-new-sales-rep').on("click", "button[type='submit']", function(event) {
+                $('#edit-sales-rep').on("click", "button[type='submit']", function(event) {
                     event.preventDefault();
-                    var form_data = $("#edit-new-sales-rep").serialize();
+                    $(".status-message").html("<div class='alert alert-info'>Processing your request. Please wait...</div>");
+
+                    var form_data = $("#edit-sales-rep").serialize();
                     $.ajax({
                         url: "<?php echo admin_url('admin-ajax.php'); ?>",
                         type: "post",

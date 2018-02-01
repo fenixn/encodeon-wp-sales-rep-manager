@@ -119,6 +119,8 @@ class Create
                 // AJAX call for creating new sales rep
                 $('#create-new-sales-rep').on("click", "button[type='submit']", function(event) {
                     event.preventDefault();
+                    $(".status-message").html("<div class='alert alert-info'>Processing your request. Please wait...</div>");
+
                     var form_data = $("#create-new-sales-rep").serialize();
                     $.ajax({
                         url: "<?php echo admin_url('admin-ajax.php'); ?>",
