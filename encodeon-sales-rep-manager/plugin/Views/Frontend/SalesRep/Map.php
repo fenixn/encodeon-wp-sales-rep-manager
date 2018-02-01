@@ -12,7 +12,7 @@ class Map
         ?>
         <div id="vmap" class="col-12 col-xl-8 offset-xl-2"></div>
 
-        <div class="modal fade" id="sales-rep-modal" tabindex="-1" role="dialog">
+        <div class="modal" id="sales-rep-modal" tabindex="-1" role="dialog">
             <div class="modal-dialog .modal-dialog-centered h-100 d-flex flex-column justify-content-center my-0" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -72,7 +72,6 @@ class Map
                                 resize_modal();
                             });
 
-
                             $(".modal-title").html(region + " Sales Representatives");
                             $("#sales-rep-modal").modal("toggle");
 
@@ -84,6 +83,7 @@ class Map
                             );
                             form_data.append("state", code);
 
+                            $(".modal-content").hide(0);
                             $.ajax({
                                 url: "<?php echo admin_url('admin-ajax.php'); ?>",
                                 type: "post",
@@ -91,7 +91,9 @@ class Map
                                 processData: false,
                                 contentType: false,
                                 success: function(data) {
+                                    
                                     $(".modal-body").html(data);
+                                    $(".modal-content").fadeIn(300);
                                 },
                                 error: function(xhr, desc, err) {
                                     $(".modal-body").html("<div class='alert alert-danger'>Error: " + err + "</div>");
