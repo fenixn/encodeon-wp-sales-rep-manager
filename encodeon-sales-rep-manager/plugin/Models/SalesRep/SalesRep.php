@@ -435,7 +435,7 @@ class SalesRep
         <?php
     }
 
-    public function show_success($success, $after)
+    public function show_success($success, $after="")
     {
         $success_html = "<div class='alert alert-success'>Success: " . $success . "</div>";
         ?>

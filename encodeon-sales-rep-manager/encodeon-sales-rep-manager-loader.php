@@ -18,6 +18,14 @@ class EncodeonSalesRepManagerLoader {
     update_option('encodeon_sales_rep_db_version', $this->db_version);
     update_option('encodeon_sales_rep_table_name', $wpdb->prefix.'encodeon_sales_reps');
 
+    // Create import and export directory in the uploads folder if it doesn't exist
+    if (!file_exists(wp_upload_dir()['basedir'] . "/import")) {
+        mkdir(wp_upload_dir()['basedir'] . "/export", 0774, true);
+    }
+    if (!file_exists(wp_upload_dir()['basedir'] . "/export")) {
+        mkdir(wp_upload_dir()['basedir'] . "/export", 0774, true);
+    }
+
     // Install the main sales rep table
     global $wpdb;
     $sql = '

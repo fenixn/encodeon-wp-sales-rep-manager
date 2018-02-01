@@ -16,6 +16,7 @@ class Plugin
         new Views\Admin\SalesRep\Create;
         new Views\Admin\SalesRep\Edit;
         new Views\Admin\SalesRep\Import;
+        new Views\Admin\SalesRep\Export;
     }
 
     public function frontend_enqueue_scripts()

@@ -10,6 +10,12 @@ class Import extends SalesRep
             die();
         }
 
+        // Authorize user
+        if(!current_user_can('manage_options')) {
+            $this->show_error("Invalid authorization.");
+            die();
+        };
+
         $php_file_upload_errors = array(
             0 => 'There is no error, the file uploaded with success',
             1 => 'The uploaded file exceeds the upload_max_filesize directive in php.ini',

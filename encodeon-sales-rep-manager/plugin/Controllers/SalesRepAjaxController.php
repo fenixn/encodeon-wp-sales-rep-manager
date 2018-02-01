@@ -5,6 +5,7 @@ use EncodeonSalesRepManager\Models\SalesRep\Create;
 use EncodeonSalesRepManager\Models\SalesRep\Edit;
 use EncodeonSalesRepManager\Models\SalesRep\Delete;
 use EncodeonSalesRepManager\Models\SalesRep\Import;
+use EncodeonSalesRepManager\Models\SalesRep\Export;
 class SalesRepAjaxController
 {
     public function __construct()
@@ -17,6 +18,7 @@ class SalesRepAjaxController
         add_action('wp_ajax_nopriv_get_state_sales_reps', array($this, 'get_state_sales_reps'));
         add_action('wp_ajax_upload_sales_rep', array($this, 'upload_sales_rep'));
         add_action('wp_ajax_copy_sales_rep_import_to_live', array($this, 'copy_sales_rep_import_to_live'));
+        add_action('wp_ajax_prepare_sales_rep_data_download', array($this, 'prepare_sales_rep_data_download'));
     }
 
     public function generate_sales_rep_table()
@@ -65,6 +67,13 @@ class SalesRepAjaxController
     {
         $sales_rep_import_model = new Import;
         $sales_rep_import_model->copy_sales_rep_import_to_live();
+        die();
+    }
+
+    public function prepare_sales_rep_data_download()
+    {
+        $sales_rep_export_model = new Export;
+        $sales_rep_export_model->process_request();
         die();
     }
 }
