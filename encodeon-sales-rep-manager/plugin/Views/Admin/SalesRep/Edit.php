@@ -11,19 +11,19 @@ class Edit
     public function add_submenu()
     {
         add_submenu_page( 
-            'hide-from-menu', 
-            'Edit Sales Rep', 
-            'Edit Sales Rep', 
-            'manage_options', 
-            'sales-rep-manager-edit', 
-            array($this, 'submenu_page') 
+            "hide-from-menu", 
+            "Edit Sales Rep", 
+            "Edit Sales Rep", 
+            "manage_options", 
+            "sales-rep-manager-edit", 
+            array($this, "submenu_page") 
         );
     }
 
     public function submenu_page()
     {
         $sales_rep_model = new SalesRep;
-        $sales_rep_id = $_GET['id'];
+        $sales_rep_id = $_GET["id"];
         $sales_rep = $sales_rep_model->get_sales_rep($sales_rep_id);
         ?>
 

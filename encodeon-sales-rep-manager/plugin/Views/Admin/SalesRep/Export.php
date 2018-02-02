@@ -10,12 +10,12 @@ class Export
     public function add_submenu()
     {
         add_submenu_page( 
-            'sales-rep-manager', 
-            'Export', 
-            'Export', 
-            'manage_options', 
-            'sales-rep-manager-export', 
-            array($this, 'submenu_page') 
+            "sales-rep-manager", 
+            "Export", 
+            "Export", 
+            "manage_options", 
+            "sales-rep-manager-export", 
+            array($this, "submenu_page") 
         );
     }
 

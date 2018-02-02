@@ -4,7 +4,7 @@ class Map
 {
     public function __construct()
     {
-        add_shortcode( 'sales-rep-map', array( $this, 'render' ) );
+        add_shortcode("sales-rep-map", array($this, "render"));
     }
 
     public function render()
@@ -38,8 +38,7 @@ class Map
                         <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <div class="modal-body">
-                    </div>
+                    <div class="modal-body"></div>
                     <div class="modal-footer justify-content-center">
                         <div>
                             <button type="button" class="btn btn-lg btn-danger" data-dismiss="modal">
@@ -71,18 +70,18 @@ class Map
                         }
                     })
 
-                    $('#vmap').vectorMap({
-                        map: 'usa_en',
+                    $("#vmap").vectorMap({
+                        map: "usa_en",
                         backgroundColor: "#FFF",
                         borderColor: "#FFF",
                         borderOpacity: 0.5,
                         borderWidth: 2,
-                        color: '#CCC',
+                        color: "#CCC",
                         enableZoom: false,
-                        hoverColor: '#29F',
+                        hoverColor: "#29F",
                         hoverOpacity: null,
-                        normalizeFunction: 'linear',
-                        selectedColor: '#07E',
+                        normalizeFunction: "linear",
+                        selectedColor: "#07E",
                         selectedRegions: null,
                         showTooltip: true,
                         onRegionClick: function(element, code, region)
@@ -128,8 +127,8 @@ class Map
 
                     function resize_modal() {
                         $(".modal-dialog").css("max-width", $(".page-content").width());
-                        $('.modal .modal-body').css('overflow-y', 'auto'); 
-                        $('.modal .modal-body').css('max-height', $(window).height() * 0.5);
+                        $(".modal .modal-body").css("overflow-y", "auto"); 
+                        $(".modal .modal-body").css("max-height", $(window).height() * 0.5);
                     }
                 });
             }(jQuery));

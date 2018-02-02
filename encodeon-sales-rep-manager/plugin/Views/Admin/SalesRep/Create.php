@@ -10,19 +10,18 @@ class Create
     public function add_submenu()
     {
         add_submenu_page( 
-            'sales-rep-manager', 
-            'Add New Sales Rep', 
-            'Add New Sales Rep', 
-            'manage_options', 
-            'sales-rep-manager-add', 
-            array($this, 'submenu_page') 
+            "sales-rep-manager", 
+            "Add New Sales Rep", 
+            "Add New Sales Rep", 
+            "manage_options", 
+            "sales-rep-manager-add", 
+            array($this, "submenu_page") 
         );
     }
 
     public function submenu_page()
     {
         ?>
-
         <main class="container-fluid mt-2">
             <h1>Add New Sales Rep</h1>
 
@@ -117,7 +116,7 @@ class Create
         <script type="text/javascript">
             jQuery(document).ready(function($) {
                 // AJAX call for creating new sales rep
-                $('#create-new-sales-rep').on("click", "button[type='submit']", function(event) {
+                $("#create-new-sales-rep").on("click", "button[type='submit']", function(event) {
                     event.preventDefault();
                     $(".status-message").html("<div class='alert alert-info'>Processing your request. Please wait...</div>");
 
@@ -136,7 +135,6 @@ class Create
                 });
             });
         </script>
-        
         <?php 
     }
 }

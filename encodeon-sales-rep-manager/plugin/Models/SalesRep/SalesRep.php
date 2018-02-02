@@ -18,14 +18,14 @@ class SalesRep extends \EncodeonSalesRepManager\Plugin
     public function get_state_sales_reps()
     {
         // Anti CSRF
-        if (wp_verify_nonce($_REQUEST['get_state_sales_reps_nonce'], "get_state_sales_reps") === false) {
+        if (wp_verify_nonce($_REQUEST["get_state_sales_reps_nonce"], "get_state_sales_reps") === false) {
             $this->show_error("Invalid nonce for this request.", true);
             die();
         }
 
-        $state = $_REQUEST['state'];
+        $state = $_REQUEST["state"];
 
-        $accepted_states = ['AK', 'AL', 'AR', 'AZ', 'CA', 'CO', 'CT', 'DC', 'DE', 'FL', 'GA', 'HI', 'IA', 'ID', 'IL', 'IN', 'KS', 'KY', 'LA', 'MA', 'MD', 'ME', 'MI', 'MN', 'MO', 'MS', 'MT', 'NC', 'ND', 'NE', 'NH', 'NJ', 'NM', 'NV', 'NY', 'OH', 'OK', 'OR', 'PA', 'RI', 'SC', 'SD', 'TN', 'TX', 'UT', 'VA', 'VT', 'WA', 'WI', 'WV', 'WY'];
+        $accepted_states = ["AK", "AL", "AR", "AZ", "CA", "CO", "CT", "DC", "DE", "FL", "GA", "HI", "IA", "ID", "IL", "IN", "KS", "KY", "LA", "MA", "MD", "ME", "MI", "MN", "MO", "MS", "MT", "NC", "ND", "NE", "NH", "NJ", "NM", "NV", "NY", "OH", "OK", "OR", "PA", "RI", "SC", "SD", "TN", "TX", "UT", "VA", "VT", "WA", "WI", "WV", "WY"];
 
         if(!in_array($state, $accepted_states) && strlen($state) !== 2) {
             echo "Invalid input for the State.";
@@ -48,7 +48,7 @@ class SalesRep extends \EncodeonSalesRepManager\Plugin
             die();
         } else {
             ?>
-            <div class='container-fluid'>
+            <div class="container-fluid">
             <?php if(count($sales_reps) == 0): ?>
                 We currently do not have a sales representative for this state.
             <?php else: ?>
@@ -56,34 +56,34 @@ class SalesRep extends \EncodeonSalesRepManager\Plugin
                     <?php foreach($sales_reps as $sales_rep): ?>
                     <div class="col-6 col-md-4 col-xl-3">
                         <div class="card-block text-left">
-                            <?php if($sales_rep['company'] != ""): ?>
-                            <div class="bold"><?php echo $sales_rep['company']; ?></div>
+                            <?php if($sales_rep["company"] != ""): ?>
+                            <div class="bold"><?php echo $sales_rep["company"]; ?></div>
                             <?php endif; ?>
 
-                            <?php if($sales_rep['name'] != ""): ?>
-                            <div>Name: <?php echo $sales_rep['name']; ?></div>
+                            <?php if($sales_rep["name"] != ""): ?>
+                            <div>Name: <?php echo $sales_rep["name"]; ?></div>
                             <?php endif; ?>
-                            <?php if($sales_rep['email'] != ""): ?>
-                            <div>Email: <a href="mailto:<?php echo $sales_rep['email']; ?>"><?php echo $sales_rep['email']; ?></a></div>
+                            <?php if($sales_rep["email"] != ""): ?>
+                            <div>Email: <a href="mailto:<?php echo $sales_rep["email"]; ?>"><?php echo $sales_rep["email"]; ?></a></div>
                             <?php endif; ?>
                             
-                            <?php if($sales_rep['phone'] != ""): ?>
-                            <div>Phone: <a href="tel:1<?php echo $sales_rep['phone']; ?>"><?php echo $this->get_formatted_phone_number($sales_rep['phone']); ?></a></div>
+                            <?php if($sales_rep["phone"] != ""): ?>
+                            <div>Phone: <a href="tel:1<?php echo $sales_rep["phone"]; ?>"><?php echo $this->get_formatted_phone_number($sales_rep["phone"]); ?></a></div>
                             <?php endif; ?>
-                            <?php if($sales_rep['cell'] != ""): ?>
-                            <div>Cell: <a href="tel:1<?php echo $sales_rep['cell']; ?>"><?php echo $this->get_formatted_phone_number($sales_rep['cell']); ?></a></div>
+                            <?php if($sales_rep["cell"] != ""): ?>
+                            <div>Cell: <a href="tel:1<?php echo $sales_rep["cell"]; ?>"><?php echo $this->get_formatted_phone_number($sales_rep["cell"]); ?></a></div>
                             <?php endif; ?>
-                            <?php if($sales_rep['fax'] != ""): ?>
-                            <div>Fax: <a href="tel:1<?php echo $sales_rep['fax']; ?>"><?php echo $this->get_formatted_phone_number($sales_rep['fax']); ?></a></div>
+                            <?php if($sales_rep["fax"] != ""): ?>
+                            <div>Fax: <a href="tel:1<?php echo $sales_rep["fax"]; ?>"><?php echo $this->get_formatted_phone_number($sales_rep["fax"]); ?></a></div>
                             <?php endif; ?>
 
 
-                            <?php if($sales_rep['address1'] != ""): ?>
-                            <div><?php echo $sales_rep['address1']; ?></div>
-                            <?php if($sales_rep['address2'] != ""): ?>
-                            <div><?php echo $sales_rep['address2']; ?></div>
+                            <?php if($sales_rep["address1"] != ""): ?>
+                            <div><?php echo $sales_rep["address1"]; ?></div>
+                            <?php if($sales_rep["address2"] != ""): ?>
+                            <div><?php echo $sales_rep["address2"]; ?></div>
                             <?php endif; ?>
-                            <div><?php echo $sales_rep['city']; ?>, <?php echo $sales_rep['state']; ?> <?php echo $sales_rep['zip']; ?></div>
+                            <div><?php echo $sales_rep["city"]; ?>, <?php echo $sales_rep["state"]; ?> <?php echo $sales_rep["zip"]; ?></div>
                             <?php endif; ?>
                         </div>
                     </div>
@@ -97,7 +97,7 @@ class SalesRep extends \EncodeonSalesRepManager\Plugin
 
     public function generate_sales_rep_table()
     {
-        if(!current_user_can('manage_options')) {
+        if(!current_user_can("manage_options")) {
             $this->show_error("Invalid authorization.");
             die();
         };
@@ -111,21 +111,21 @@ class SalesRep extends \EncodeonSalesRepManager\Plugin
          * 1 => encodeon_sales_reps
          * 2 => encodeon_sales_reps_import
          */
-        $table = $_REQUEST['table'];
+        $table = $_REQUEST["table"];
         if ($table == "") $table = 1;
         if ($table != 1 && $table != 2) {
             $this->show_error("Invalid table request.");
             die();
         }
         
-        $attribute = $_REQUEST['attribute'];
-        $sort = $_REQUEST['sort'];
-        $page = $_REQUEST['page'];
-        $limit = $_REQUEST['limit'];
-        $search_term = htmlspecialchars($_REQUEST['search_input']);
+        $attribute = $_REQUEST["attribute"];
+        $sort = $_REQUEST["sort"];
+        $page = $_REQUEST["page"];
+        $limit = $_REQUEST["limit"];
+        $search_term = htmlspecialchars($_REQUEST["search_input"]);
 
         // Anti CSRF
-        if (wp_verify_nonce($_REQUEST['generate_sales_rep_table_nonce'], "generate_sales_rep_table") === false) {
+        if (wp_verify_nonce($_REQUEST["generate_sales_rep_table_nonce"], "generate_sales_rep_table") === false) {
             $this->show_error("Invalid nonce for the generate sales rep table request.", true);
             die();
         }
@@ -137,8 +137,8 @@ class SalesRep extends \EncodeonSalesRepManager\Plugin
         }
 
         // Attribute input validation using whitelisting strategy
-        $allowed_attributes = ['id', 'name', 'email', 'phone', 'cell', 'fax', 'company', 'url', 'address1', 'address2', 'city', 'state', 'zip'];
-        $allowed_sort = ['ASC', 'DESC'];
+        $allowed_attributes = ["id", "name", "email", "phone", "cell", "fax", "company", "url", "address1", "address2", "city", "state", "zip"];
+        $allowed_sort = ["ASC", "DESC"];
 
         if(!in_array($attribute, $allowed_attributes) || !in_array($sort, $allowed_sort)) {
             $this->show_error("Invalid sort input.", true);
@@ -182,7 +182,7 @@ class SalesRep extends \EncodeonSalesRepManager\Plugin
             $table_headers = $wpdb->get_results("SHOW COLUMNS FROM " . get_option("encodeon_sales_reps_table_name"), ARRAY_A);
 
             foreach($table_headers as $table_header) {
-                $search_condition .= $table_header['Field'] . " LIKE %s OR ";
+                $search_condition .= $table_header["Field"] . " LIKE %s OR ";
             }
 
             // Remove trailing OR
@@ -197,7 +197,7 @@ class SalesRep extends \EncodeonSalesRepManager\Plugin
             $table_name = get_option("encodeon_sales_reps_import_table_name");
         }
 
-        $like_search = '%' . $wpdb->esc_like($search_term) . '%';
+        $like_search = "%" . $wpdb->esc_like($search_term) . "%";
 
         $prepared_statement = "SELECT * FROM " . $table_name . $search_condition . " ORDER BY {$attribute} {$sort} LIMIT {$limit} OFFSET {$offset}";
 
@@ -233,7 +233,7 @@ class SalesRep extends \EncodeonSalesRepManager\Plugin
             </div>
 
             <div class="col-sm">
-                <form id='sales-rep-search'>
+                <form id="sales-rep-search">
                     <div class="input-group">
                         <input type="text" id="sales-rep-search-input"
                             class="form-control" placeholder="Enter search here"
@@ -267,8 +267,10 @@ class SalesRep extends \EncodeonSalesRepManager\Plugin
                         <tr>
                             <?php foreach($sales_rep as $key => $sales_rep_attribute): ?>
                             <td>                                
-                                <?php if ($key == 'name' && $table == 1): ?>
-                                    <a href="admin.php?page=sales-rep-manager-edit&id=<?php echo $sales_rep['id']; ?>"><?php echo $sales_rep_attribute; ?></a>
+                                <?php if ($key == "name" && $table == 1): ?>
+                                    <a href="admin.php?page=sales-rep-manager-edit&id=<?php echo $sales_rep["id"]; ?>"><?php echo $sales_rep_attribute; ?></a>
+                                <?php elseif (in_array($key, array("phone", "cell", "fax"))): ?>
+                                    <?php echo $this->get_formatted_phone_number($sales_rep_attribute); ?>
                                 <?php else: ?>
                                     <?php echo $sales_rep_attribute; ?>
                                 <?php endif; ?>
@@ -368,10 +370,10 @@ class SalesRep extends \EncodeonSalesRepManager\Plugin
     public function get_sort_icon($sort_attribute, $current_attribute, $sort_by) 
     {
         if ($sort_attribute === $current_attribute) {
-            if ($sort_by === 'ASC') {
-                echo "<i class=\"fas fa-sort-up\"></i>";
+            if ($sort_by === "ASC") {
+                echo "<i class='fas fa-sort-up'></i>";
             } else {
-                echo "<i class=\"fas fa-sort-down\"></i>";
+                echo "<i class='fas fa-sort-down'></i>";
             }
         }
     }
@@ -380,28 +382,28 @@ class SalesRep extends \EncodeonSalesRepManager\Plugin
     {
         switch ($attribute) {
             case "id":
-                echo "<i class=\"fas fa-id-card d-none d-lg-inline\"></i>";
+                echo "<i class='fas fa-id-card d-none d-lg-inline'></i>";
                 break;
             case "name":
-                echo "<i class=\"fas fa-user d-none d-lg-inline\"></i>";
+                echo "<i class='fas fa-user d-none d-lg-inline'></i>";
                 break;
             case "email":
-                echo "<i class=\"fas fa-envelope d-none d-lg-inline\"></i>";
+                echo "<i class='fas fa-envelope d-none d-lg-inline'></i>";
                 break;
             case "phone":
-                echo "<i class=\"fas fa-phone d-none d-lg-inline\"></i>";
+                echo "<i class='fas fa-phone d-none d-lg-inline'></i>";
                 break;
             case "cell":
-                echo "<i class=\"fas fa-mobile d-none d-lg-inline\"></i>";
+                echo "<i class='fas fa-mobile d-none d-lg-inline'></i>";
                 break;
             case "fax":
-                echo "<i class=\"fas fa-fax d-none d-lg-inline\"></i>";
+                echo "<i class='fas fa-fax d-none d-lg-inline'></i>";
                 break;
             case "company":
-                echo "<i class=\"fas fa-building d-none d-lg-inline\"></i>";
+                echo "<i class='fas fa-building d-none d-lg-inline'></i>";
                 break;
             case "url":
-                echo "<i class=\"fas fa-link d-none d-lg-inline\"></i>";
+                echo "<i class='fas fa-link d-none d-lg-inline'></i>";
                 break;
             default:
                 break;

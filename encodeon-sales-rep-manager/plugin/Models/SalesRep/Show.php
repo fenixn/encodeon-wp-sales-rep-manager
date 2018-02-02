@@ -5,7 +5,6 @@ class Show extends SalesRep
     public function render()
     {
         ?>
-
         <div id="table-container" class="container-fluid pt-4"></div>
 
         <script type="text/javascript">
@@ -13,7 +12,6 @@ class Show extends SalesRep
             <?php (new \EncodeonSalesRepManager\JavascriptGenerators\SalesRepTable)->render("live"); ?>
         });
         </script>
-
         <?php
     }
 }

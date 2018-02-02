@@ -1,74 +1,39 @@
 <?php
 namespace EncodeonSalesRepManager\Views\Admin;
 use EncodeonSalesRepManager\Models\SalesRep\Show;
-class MainMenu
+class MainMenu extends \EncodeonSalesRepManager\Plugin
 {
     public function __construct()
     {
         $this->add_top_level_menu();
-        add_action('admin_enqueue_scripts', array($this, 'admin_enqueue_scripts'));
+        add_action("admin_enqueue_scripts", array($this, "admin_enqueue_scripts"));
     }
 
     public function add_top_level_menu()
     {
         add_menu_page( 
-            'Sales Rep Manager', 
-            'Sales Rep Manager', 
-            'manage_options', 
-            'sales-rep-manager', 
-            array($this, 'sales_rep_main_menu_page'), 
-            'dashicons-businessman', 
+            "Sales Rep Manager", 
+            "Sales Rep Manager", 
+            "manage_options", 
+            "sales-rep-manager", 
+            array($this, "sales_rep_main_menu_page"), 
+            "dashicons-businessman", 
             3 
         );
     }
     
     public function admin_enqueue_scripts()
     {
-        // Enqueue Tether
-        if( ( ! wp_style_is( 'tether', 'queue' ) ) && 
-            ( ! wp_style_is( 'tether', 'done' ) ) ) {
-            wp_enqueue_script(
-                'tether',
-                plugins_url('encodeon-sales-rep-manager/vendor/tether-1.3.3/dist/js/tether.min.js'),
-                array(),
-                '1.3.3'
-            );
-        }
-        
-        // Enqueue Bootstrap. Does a cursory check first to see if a bootstrap handle already exists
-        if( ( ! wp_style_is( 'bootstrap', 'queue' ) ) && 
-            ( ! wp_style_is( 'bootstrap', 'done' ) ) ) {
-            wp_enqueue_style(
-                'bootstrap',
-                plugins_url('encodeon-sales-rep-manager/vendor/twbs/bootstrap/dist/css/bootstrap.min.css'),
-                array(),
-                '4.00'
-            );
-
-            wp_enqueue_script(
-                'bootstrap',
-                plugins_url('encodeon-sales-rep-manager/vendor/twbs/bootstrap/dist/js/bootstrap.min.js'),
-                array('jquery', "tether"),
-                '4.00'
-            );
-        }
-
-        // Enqueue FontAwesome
-        if( ( ! wp_style_is( 'fontawesome', 'queue' ) ) && 
-            ( ! wp_style_is( 'fontawesome', 'done' ) ) ) {
-            wp_enqueue_style(
-                'fontawesome',
-                plugins_url('encodeon-sales-rep-manager/vendor/fontawesome/web-fonts-with-css/css/fontawesome-all.min.css'),
-                array(),
-                '5.0.4'
-            );
-        }
+        $tether = true;
+        $bootstrap = true;
+        $font_awesome = true;
+        $jqvmp = false;
+        $this->enqueue_scripts($tether, $bootstrap, $font_awesome, $jqvmp);
     }
 
     public function sales_rep_main_menu_page()
     {
         ?>
-
         <main class="container-fluid mt-2">
             <h1>Sales Representatives</h1>
 
@@ -76,7 +41,6 @@ class MainMenu
 
             <?php $sales_rep_show = new Show; $sales_rep_show->render(); ?>
         </main>
-
         <?php 
     }
 }

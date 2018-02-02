@@ -5,19 +5,19 @@ class Config extends \EncodeonSalesRepManager\Plugin
     public function save_config()
     {
         // Anti CSRF
-        if (wp_verify_nonce($_REQUEST['encodeon_sales_rep_manager_save_config_nonce'], "encodeon_sales_rep_manager_save_config") === false) {
+        if (wp_verify_nonce($_REQUEST["encodeon_sales_rep_manager_save_config_nonce"], "encodeon_sales_rep_manager_save_config") === false) {
             $this->show_error("Invalid nonce for this request.");
             die();
         }
 
         // Authorize user
-        if(!current_user_can('manage_options')) {
+        if(!current_user_can("manage_options")) {
             $this->show_error("Invalid authorization.");
             die();
         };
 
-        $page_limit = $_REQUEST['page_limit'];
-        $pager_increment = $_REQUEST['pager_increment'];
+        $page_limit = $_REQUEST["page_limit"];
+        $pager_increment = $_REQUEST["pager_increment"];
 
         // Test if limit input is a positive integer
         if(!preg_match("/^[+]?[1-9]\d*$/", $page_limit)) {

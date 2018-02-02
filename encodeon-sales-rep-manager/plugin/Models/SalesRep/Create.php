@@ -5,13 +5,13 @@ class Create extends SalesRep
     public function process_request()
     {
         // Anti CSRF
-        if (wp_verify_nonce($_REQUEST['create_sales_rep_nonce'], "create_sales_rep") === false) {
+        if (wp_verify_nonce($_REQUEST["create_sales_rep_nonce"], "create_sales_rep") === false) {
             $this->show_error("Invalid nonce for the create sales rep request.");
             die();
         }
 
         // Authorize user
-        if(!current_user_can('manage_options')) {
+        if(!current_user_can("manage_options")) {
             $this->show_error("Invalid authorization.");
             die();
         };
@@ -26,7 +26,7 @@ class Create extends SalesRep
          */
 
         // Validate required inputs
-        $required_inputs = ['name', 'state'];
+        $required_inputs = ["name", "state"];
 
         foreach($required_inputs as $required_input) {
             if($$required_input == "") {
@@ -62,7 +62,7 @@ class Create extends SalesRep
         }
 
         // Validate state; whitelist strategy
-        $accepted_states = ['AK', 'AL', 'AR', 'AZ', 'CA', 'CO', 'CT', 'DC', 'DE', 'FL', 'GA', 'HI', 'IA', 'ID', 'IL', 'IN', 'KS', 'KY', 'LA', 'MA', 'MD', 'ME', 'MI', 'MN', 'MO', 'MS', 'MT', 'NC', 'ND', 'NE', 'NH', 'NJ', 'NM', 'NV', 'NY', 'OH', 'OK', 'OR', 'PA', 'RI', 'SC', 'SD', 'TN', 'TX', 'UT', 'VA', 'VT', 'WA', 'WI', 'WV', 'WY'];
+        $accepted_states = ["AK", "AL", "AR", "AZ", "CA", "CO", "CT", "DC", "DE", "FL", "GA", "HI", "IA", "ID", "IL", "IN", "KS", "KY", "LA", "MA", "MD", "ME", "MI", "MN", "MO", "MS", "MT", "NC", "ND", "NE", "NH", "NJ", "NM", "NV", "NY", "OH", "OK", "OR", "PA", "RI", "SC", "SD", "TN", "TX", "UT", "VA", "VT", "WA", "WI", "WV", "WY"];
 
         if(!in_array($state, $accepted_states) && strlen($state) !== 2) {
             $this->show_error("Invalid input for the State.");

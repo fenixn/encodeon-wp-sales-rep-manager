@@ -5,51 +5,51 @@ class Import extends SalesRep
     public function process_upload()
     {
         // Anti CSRF
-        if (wp_verify_nonce($_REQUEST['upload_sales_rep_nonce'], "upload_sales_rep") === false) {
+        if (wp_verify_nonce($_REQUEST["upload_sales_rep_nonce"], "upload_sales_rep") === false) {
             echo "Invalid nonce for this request. <br>";
             die();
         }
 
         // Authorize user
-        if(!current_user_can('manage_options')) {
+        if(!current_user_can("manage_options")) {
             $this->show_error("Invalid authorization.");
             die();
         };
 
         $php_file_upload_errors = array(
-            0 => 'There is no error, the file uploaded with success',
-            1 => 'The uploaded file exceeds the upload_max_filesize directive in php.ini',
-            2 => 'The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form',
-            3 => 'The uploaded file was only partially uploaded',
-            4 => 'No file was uploaded',
-            6 => 'Missing a temporary folder',
-            7 => 'Failed to write file to disk.',
-            8 => 'A PHP extension stopped the file upload.',
+            0 => "There is no error, the file uploaded with success",
+            1 => "The uploaded file exceeds the upload_max_filesize directive in php.ini",
+            2 => "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form",
+            3 => "The uploaded file was only partially uploaded",
+            4 => "No file was uploaded",
+            6 => "Missing a temporary folder",
+            7 => "Failed to write file to disk.",
+            8 => "A PHP extension stopped the file upload.",
         );
 
-        if ($_FILES['file']['error'] != 0) {
-            echo $php_file_upload_errors[$_FILES['file']['error']] . "<br>";
+        if ($_FILES["file"]["error"] != 0) {
+            echo $php_file_upload_errors[$_FILES["file"]["error"]] . "<br>";
             die();
         }
 
-        $upload_destination = wp_upload_dir()['basedir'] . '/import/';
+        $upload_destination = wp_upload_dir()["basedir"] . "/import/";
 
         $csv_mimetypes = array(
-            'text/csv',
-            'application/csv',
-            'text/comma-separated-values',
-            'application/vnd.ms-excel'
+            "text/csv",
+            "application/csv",
+            "text/comma-separated-values",
+            "application/vnd.ms-excel"
         );
         
-        if (in_array($_FILES['file']['type'], $csv_mimetypes)) {
-            if (move_uploaded_file($_FILES['file']['tmp_name'], $upload_destination . 'salesreps.csv')) {
+        if (in_array($_FILES["file"]["type"], $csv_mimetypes)) {
+            if (move_uploaded_file($_FILES["file"]["tmp_name"], $upload_destination . "salesreps.csv")) {
                 echo "The file ". basename( $_FILES["file"]["name"]). " has been uploaded. <br>";
             } else {
                 echo "Sorry, there was an error uploading your file. <br>";
                 die();
             }
         } else {
-            echo 'Filetype not allowed, please upload a CSV file. <br>';
+            echo "Filetype not allowed, please upload a CSV file. <br>";
             die();
         }
 
@@ -59,14 +59,14 @@ class Import extends SalesRep
     public function parse_uploaded_csv_and_import_into_preview_table()
     {
         global $wpdb;
-        $import_file = wp_upload_dir()["baseurl"] . '/import/salesreps.csv';
-        $import_csv = array_map('str_getcsv', file($import_file));
+        $import_file = wp_upload_dir()["baseurl"] . "/import/salesreps.csv";
+        $import_csv = array_map("str_getcsv", file($import_file));
         $import_table = get_option("encodeon_sales_reps_import_table_name");
 
         /**
          * Truncate the preview table before importing new data for preview
          */
-        $truncate_query = 'TRUNCATE TABLE ' . $import_table;
+        $truncate_query = "TRUNCATE TABLE " . $import_table;
         $results = $wpdb->get_results($truncate_query, ARRAY_A);
 
         $import_column_headers = $import_csv[0];
@@ -95,20 +95,20 @@ class Import extends SalesRep
     public function copy_sales_rep_import_to_live()
     {
         // Anti CSRF
-        if (wp_verify_nonce($_REQUEST['copy_sales_rep_import_to_live_nonce'], "copy_sales_rep_import_to_live") === false) {
+        if (wp_verify_nonce($_REQUEST["copy_sales_rep_import_to_live_nonce"], "copy_sales_rep_import_to_live") === false) {
             echo "Invalid nonce for this request. <br>";
             die();
         }
 
         // Authorize user
-        if(!current_user_can('manage_options')) {
+        if(!current_user_can("manage_options")) {
             $this->show_error("Invalid authorization.");
             die();
         };
 
         global $wpdb;
 
-        $truncate_statement = 'TRUNCATE TABLE ' . get_option("encodeon_sales_reps_table_name");
+        $truncate_statement = "TRUNCATE TABLE " . get_option("encodeon_sales_reps_table_name");
         $results = $wpdb->query($truncate_statement);
 
         if ($result === false) {

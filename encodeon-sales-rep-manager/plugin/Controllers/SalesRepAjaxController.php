@@ -10,15 +10,15 @@ class SalesRepAjaxController
 {
     public function __construct()
     {
-        add_action('wp_ajax_generate_sales_rep_table', array($this, 'generate_sales_rep_table'));
-        add_action('wp_ajax_create_sales_rep', array($this, 'create_sales_rep'));
-        add_action('wp_ajax_edit_sales_rep', array($this, 'edit_sales_rep'));
-        add_action('wp_ajax_delete_sales_rep', array($this, 'delete_sales_rep'));
-        add_action('wp_ajax_get_state_sales_reps', array($this, 'get_state_sales_reps'));
-        add_action('wp_ajax_nopriv_get_state_sales_reps', array($this, 'get_state_sales_reps'));
-        add_action('wp_ajax_upload_sales_rep', array($this, 'upload_sales_rep'));
-        add_action('wp_ajax_copy_sales_rep_import_to_live', array($this, 'copy_sales_rep_import_to_live'));
-        add_action('wp_ajax_prepare_sales_rep_data_download', array($this, 'prepare_sales_rep_data_download'));
+        add_action("wp_ajax_generate_sales_rep_table", array($this, "generate_sales_rep_table"));
+        add_action("wp_ajax_create_sales_rep", array($this, "create_sales_rep"));
+        add_action("wp_ajax_edit_sales_rep", array($this, "edit_sales_rep"));
+        add_action("wp_ajax_delete_sales_rep", array($this, "delete_sales_rep"));
+        add_action("wp_ajax_get_state_sales_reps", array($this, "get_state_sales_reps"));
+        add_action("wp_ajax_nopriv_get_state_sales_reps", array($this, "get_state_sales_reps"));
+        add_action("wp_ajax_upload_sales_rep", array($this, "upload_sales_rep"));
+        add_action("wp_ajax_copy_sales_rep_import_to_live", array($this, "copy_sales_rep_import_to_live"));
+        add_action("wp_ajax_prepare_sales_rep_data_download", array($this, "prepare_sales_rep_data_download"));
     }
 
     public function generate_sales_rep_table()

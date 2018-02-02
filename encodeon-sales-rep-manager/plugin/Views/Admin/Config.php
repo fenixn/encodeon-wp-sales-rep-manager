@@ -10,12 +10,12 @@ class Config
     public function add_submenu()
     {
         add_submenu_page( 
-            'sales-rep-manager', 
-            'Config', 
-            'Config', 
-            'manage_options', 
-            'sales-rep-manager-config', 
-            array($this, 'submenu_page') 
+            "sales-rep-manager", 
+            "Config", 
+            "Config", 
+            "manage_options", 
+            "sales-rep-manager-config", 
+            array($this, "submenu_page") 
         );
     }
 

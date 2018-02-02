@@ -5,13 +5,13 @@ class Edit extends SalesRep
     public function process_request()
     {
         // Anti CSRF
-        if (wp_verify_nonce($_REQUEST['edit_sales_rep_nonce'], "edit_sales_rep") === false) {
+        if (wp_verify_nonce($_REQUEST["edit_sales_rep_nonce"], "edit_sales_rep") === false) {
             $this->show_error("Invalid nonce for the edit sales rep request.");
             die();
         }
 
         // Authorize user
-        if(!current_user_can('manage_options')) {
+        if(!current_user_can("manage_options")) {
             $this->show_error("Invalid authorization.");
             die();
         };
@@ -26,7 +26,7 @@ class Edit extends SalesRep
          */
 
         // Validate required inputs
-        $required_inputs = ['name', 'state'];
+        $required_inputs = ["name", "state"];
 
         foreach($required_inputs as $required_input) {
             if($$required_input == "") {
@@ -62,7 +62,7 @@ class Edit extends SalesRep
         }
 
         // Validate state; whitelist strategy
-        $accepted_states = ['AK', 'AL', 'AR', 'AZ', 'CA', 'CO', 'CT', 'DC', 'DE', 'FL', 'GA', 'HI', 'IA', 'ID', 'IL', 'IN', 'KS', 'KY', 'LA', 'MA', 'MD', 'ME', 'MI', 'MN', 'MO', 'MS', 'MT', 'NC', 'ND', 'NE', 'NH', 'NJ', 'NM', 'NV', 'NY', 'OH', 'OK', 'OR', 'PA', 'RI', 'SC', 'SD', 'TN', 'TX', 'UT', 'VA', 'VT', 'WA', 'WI', 'WV', 'WY'];
+        $accepted_states = ["AK", "AL", "AR", "AZ", "CA", "CO", "CT", "DC", "DE", "FL", "GA", "HI", "IA", "ID", "IL", "IN", "KS", "KY", "LA", "MA", "MD", "ME", "MI", "MN", "MO", "MS", "MT", "NC", "ND", "NE", "NH", "NJ", "NM", "NV", "NY", "OH", "OK", "OR", "PA", "RI", "SC", "SD", "TN", "TX", "UT", "VA", "VT", "WA", "WI", "WV", "WY"];
 
         if(!in_array($state, $accepted_states) && strlen($state) !== 2) {
             $this->show_error("Invalid input for the State.");
@@ -104,7 +104,7 @@ class Edit extends SalesRep
         } else {
             $success_message = "The sales representative " . $name . " has been updated.";
 
-            $after_script = "$('.alert').append(' <a href=\'admin.php?page=sales-rep-manager\'>Click here to return to sales rep table.</a>')";
+            $after_script = "$('.alert').append('<a href=\'admin.php?page=sales-rep-manager\'>Click here to return to sales rep table.</a>')";
 
             $this->show_success($success_message, $after_script);
             die();

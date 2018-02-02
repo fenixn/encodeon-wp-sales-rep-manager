@@ -5,18 +5,18 @@ class Delete extends SalesRep
     public function process_request()
     {
         // Anti CSRF
-        if (wp_verify_nonce($_REQUEST['delete_sales_rep_nonce'], "delete_sales_rep") === false) {
+        if (wp_verify_nonce($_REQUEST["delete_sales_rep_nonce"], "delete_sales_rep") === false) {
             $this->show_error("Invalid nonce for the delete sales rep request.");
             die();
         }
 
         // Authorize user
-        if(!current_user_can('manage_options')) {
+        if(!current_user_can("manage_options")) {
             $this->show_error("Invalid authorization.");
             die();
         };
 
-        $sales_rep_id = $_REQUEST['id'];
+        $sales_rep_id = $_REQUEST["id"];
 
         // Test if id is a positive integer
         if(!preg_match("/^[+]?[1-9]\d*$/", $sales_rep_id)) {
@@ -38,7 +38,7 @@ class Delete extends SalesRep
         } else {
             $success_message = "This sales representative has been deleted.";
 
-            $after_script = "$('.alert').append(' <a href=\'admin.php?page=sales-rep-manager\'>Click here to return to sales rep table.</a>'); $('.card').fadeOut(1000);";
+            $after_script = "$('.alert').append('<a href=\'admin.php?page=sales-rep-manager\'>Click here to return to sales rep table.</a>'); $('.card').fadeOut(1000);";
 
             $this->show_success($success_message, $after_script);
             die();

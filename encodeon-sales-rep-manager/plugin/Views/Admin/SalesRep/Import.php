@@ -12,12 +12,12 @@ class Import
     public function add_submenu()
     {
         add_submenu_page( 
-            'sales-rep-manager', 
-            'Import', 
-            'Import', 
-            'manage_options', 
-            'sales-rep-manager-import', 
-            array($this, 'submenu_page') 
+            "sales-rep-manager", 
+            "Import", 
+            "Import", 
+            "manage_options", 
+            "sales-rep-manager-import", 
+            array($this, "submenu_page") 
         );
     }
 
@@ -33,9 +33,9 @@ class Import
         <script>
         (function($) {
             $(document).ready(function() {
-                $('.custom-file-input').on('change',function(){
-                    var fileName = $(this).val().split('\\').pop();
-                    $(this).next('.form-control-file').addClass("selected").html(fileName);
+                $(".custom-file-input").on("change", function() {
+                    var fileName = $(this).val().split("\\").pop();
+                    $(this).next(".form-control-file").addClass("selected").html(fileName);
                 })
             });
         }(jQuery));
@@ -115,49 +115,49 @@ class Import
             <script type="text/javascript">
             jQuery(document).ready(function($) {
 
-                $('#upload-sales-rep').on('submit', function (e) {
+                $('#upload-sales-rep').on("submit", function (e) {
                     e.preventDefault();
-                    $('.import-log-content').prepend( 'Uploading your file, please wait... <br />' );
+                    $(".import-log-content").prepend("Uploading your file, please wait... <br />");
                     
                     $.ajax({
                         url: "<?php echo admin_url('admin-ajax.php'); ?>",
-                        type: 'post',
+                        type: "post",
                         data: new FormData(this),
                         processData: false,
                         contentType: false,
                         success: function (data, status) {
                         if(data) {
-                            $('.import-log-content').prepend(data + "<br>");
+                            $(".import-log-content").prepend(data + "<br>");
                             generate_sales_rep_table();
 
-                            $('.import-log-content').prepend("Upload completed. Please check the updated Import Preview below. If the new data looks correct, click the Make Import Data Live button. <br>");
+                            $(".import-log-content").prepend("Upload completed. Please check the updated Import Preview below. If the new data looks correct, click the Make Import Data Live button. <br>");
                         }
                         },
                         error: function (xhr, desc, err) {
-                            $('.import-log-content').prepend(err + "<br>");
+                            $(".import-log-content").prepend(err + "<br>");
                         }
                     }); 
                 });
 
                 // AJAX call for copying sales rep import table to live table
-                $('#confirm-data-live').on("submit", function(event) {
+                $("#confirm-data-live").on("submit", function(event) {
                     event.preventDefault();
-                    $('.import-log-content').prepend("Copying sales rep import table to live table...");
+                    $(".import-log-content").prepend("Copying sales rep import table to live table...");
 
                     $.ajax({
                         url: "<?php echo admin_url('admin-ajax.php'); ?>",
-                        type: 'post',
+                        type: "post",
                         data: new FormData(this),
                         processData: false,
                         contentType: false,
                         success: function (data, status) {
                         if(data) {
-                            $('.import-log-content').prepend(data + "<br>");
+                            $(".import-log-content").prepend(data + "<br>");
                             $("#confirm-modal").modal("toggle");
                         }
                         },
                         error: function (xhr, desc, err) {
-                            $('.import-log-content').prepend(err + "<br>");
+                            $(".import-log-content").prepend(err + "<br>");
                         }
                     }); 
                 });

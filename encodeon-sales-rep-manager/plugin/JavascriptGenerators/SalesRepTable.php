@@ -25,13 +25,13 @@ class SalesRepTable
             page=1,
             search_input="",
             table=<?php echo $table; ?>,
-            limit=<?php echo get_option('encodeon_sales_reps_table_page_limit'); ?>,
+            limit=<?php echo get_option("encodeon_sales_reps_table_page_limit"); ?>,
         ) {
             var form_data = new FormData();
             form_data.append("action", "generate_sales_rep_table");
             form_data.append(
                 "generate_sales_rep_table_nonce", 
-                "<?php echo wp_create_nonce('generate_sales_rep_table'); ?>"
+                "<?php echo wp_create_nonce("generate_sales_rep_table"); ?>"
             );
             form_data.append("attribute", attribute);
             form_data.append("sort", sort);
@@ -41,7 +41,7 @@ class SalesRepTable
             form_data.append("table", table);
 
             $.ajax({
-                url: "<?php echo admin_url('admin-ajax.php'); ?>",
+                url: "<?php echo admin_url("admin-ajax.php"); ?>",
                 type: "post",
                 data: form_data,
                 processData: false,
@@ -56,7 +56,7 @@ class SalesRepTable
         }
 
         // AJAX call for sorting the sales rep table
-        $('#table-container').on("click", "th", function(event) {
+        $("#table-container").on("click", "th", function(event) {
             var attribute = this.dataset.attributeName;
             var sort = this.dataset.attributeSort;
             var page = $("#table-data").attr("data-page");

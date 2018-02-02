@@ -6,8 +6,11 @@ class Plugin
     {
         $this->run_controllers();
 
-        add_action('admin_menu', array($this, 'on_wp_admin_menu'));
-        add_action('wp_enqueue_scripts', array($this, 'frontend_enqueue_scripts'));
+        /** Frontend Pages */
+        new Views\Frontend\SalesRep\Map;
+
+        add_action("admin_menu", array($this, "on_wp_admin_menu"));
+        add_action("wp_enqueue_scripts", array($this, "enqueue_for_frontend"));
     }
 
     public function on_wp_admin_menu()
@@ -20,61 +23,88 @@ class Plugin
         new Views\Admin\Config;
     }
 
-    public function frontend_enqueue_scripts()
+    public function enqueue_for_frontend()
     {
-        new Views\Frontend\SalesRep\Map;
-        // Enqueue Tether
-        if( ( ! wp_style_is( 'tether', 'queue' ) ) && 
-            ( ! wp_style_is( 'tether', 'done' ) ) ) {
-            wp_enqueue_script(
-                'tether',
-                plugins_url('encodeon-sales-rep-manager/vendor/tether-1.3.3/dist/js/tether.min.js'),
-                array(),
-                '1.3.3'
-            );
+        $tether = true;
+        $bootstrap = true;
+        $font_awesome = true;
+        $jqvmp = true;
+        $this->enqueue_scripts($tether, $bootstrap, $font_awesome, $jqvmp);
+    }
+
+    public function enqueue_scripts($tether=true, $bootstrap=true, $font_awesome=true, $jqvmp=false)
+    {
+        /** Enqueue Tether */
+        if ($tether === true) {
+            if((! wp_style_is("tether", "queue")) && 
+            (! wp_style_is("tether", "done"))) {
+                wp_enqueue_script(
+                    "tether",
+                    plugins_url("encodeon-sales-rep-manager/vendor/tether-1.3.3/dist/js/tether.min.js"),
+                    array(),
+                    "1.3.3"
+                );
+            }
+        }
+        
+        /** Enqueue Bootstrap */
+        if ($bootstrap === true) {
+            if((!wp_style_is("bootstrap", "queue")) && 
+               (!wp_style_is("bootstrap", "done"))) {
+                wp_enqueue_style(
+                    "bootstrap",
+                    plugins_url("encodeon-sales-rep-manager/vendor/twbs/bootstrap/dist/css/bootstrap.min.css"),
+                    array(),
+                    "4.00"
+                );
+
+                wp_enqueue_script(
+                    "bootstrap",
+                    plugins_url("encodeon-sales-rep-manager/vendor/twbs/bootstrap/dist/js/bootstrap.min.js"),
+                    array("jquery", "tether"),
+                    "4.00"
+                );
+            }
         }
 
-        // Enqueue Bootstrap.
-        if( ( ! wp_style_is( 'bootstrap', 'queue' ) ) && 
-            ( ! wp_style_is( 'bootstrap', 'done' ) ) ) {
-            wp_enqueue_style(
-                'bootstrap',
-                plugins_url('encodeon-sales-rep-manager/vendor/twbs/bootstrap/dist/css/bootstrap.min.css'),
-                array(),
-                '4.00'
-            );
-
-            wp_enqueue_script(
-                'bootstrap',
-                plugins_url('encodeon-sales-rep-manager/vendor/twbs/bootstrap/dist/js/bootstrap.min.js'),
-                array('jquery', "tether"),
-                '4.00'
-            );
+        /** Enqueue FontAwesome */
+        if ($font_awesome === true) {
+            if( ( ! wp_style_is( 'fontawesome', 'queue' ) ) && 
+                ( ! wp_style_is( 'fontawesome', 'done' ) ) ) {
+                wp_enqueue_style(
+                    'fontawesome',
+                    plugins_url('encodeon-sales-rep-manager/vendor/fontawesome/web-fonts-with-css/css/fontawesome-all.min.css'),
+                    array(),
+                    '5.0.4'
+                );
+            }
         }
 
-        // Enqueue Jquery Vector Map
-        if((!wp_style_is('jqvmap', 'queue')) && 
-           (!wp_style_is('jqvmap', 'done'))) {
-            wp_enqueue_style(
-                'jqvmap',
-                plugins_url('encodeon-sales-rep-manager/vendor/jqvmap-master/dist/jqvmap.min.css'),
-                array(),
-                '1.5.0'
-            );
+        /** Enqeue jQuery Vector Map */
+        if ($jqvmp === true) {
+            if((!wp_style_is("jqvmap", "queue")) && 
+               (!wp_style_is("jqvmap", "done"))) {
+                wp_enqueue_style(
+                    "jqvmap",
+                    plugins_url("encodeon-sales-rep-manager/vendor/jqvmap-master/dist/jqvmap.min.css"),
+                    array(),
+                    "1.5.0"
+                );
 
-            wp_enqueue_script(
-                'jqvmap',
-                plugins_url('encodeon-sales-rep-manager/vendor/jqvmap-master/dist/jquery.vmap.min.js'),
-                array('jquery'),
-                '1.5.0'
-            );
+                wp_enqueue_script(
+                    "jqvmap",
+                    plugins_url("encodeon-sales-rep-manager/vendor/jqvmap-master/dist/jquery.vmap.min.js"),
+                    array("jquery"),
+                    "1.5.0"
+                );
 
-            wp_enqueue_script(
-                'jqvmap-usa',
-                plugins_url('encodeon-sales-rep-manager/vendor/jqvmap-master/dist/maps/jquery.vmap.usa.js'),
-                array('jquery'),
-                '1.5.0'
-            );
+                wp_enqueue_script(
+                    "jqvmap-usa",
+                    plugins_url("encodeon-sales-rep-manager/vendor/jqvmap-master/dist/maps/jquery.vmap.usa.js"),
+                    array("jquery"),
+                    "1.5.0"
+                );
+            }
         }
     }
 
