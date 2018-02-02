@@ -50,7 +50,7 @@ class SalesRep extends \EncodeonSalesRepManager\Plugin
             ?>
             <div class='container-fluid'>
             <?php if(count($sales_reps) == 0): ?>
-                We currently do not have a sales representative for this state."
+                We currently do not have a sales representative for this state.
             <?php else: ?>
                 <div class="row">
                     <?php foreach($sales_reps as $sales_rep): ?>

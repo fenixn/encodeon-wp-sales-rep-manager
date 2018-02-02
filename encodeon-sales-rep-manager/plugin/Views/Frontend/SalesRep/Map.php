@@ -87,7 +87,6 @@ class Map
                         showTooltip: true,
                         onRegionClick: function(element, code, region)
                         {
-                            
                             get_state_reps(region, code);
                         }
                     });
@@ -109,7 +108,7 @@ class Map
                         );
                         form_data.append("state", code);
 
-                        $(".modal-content").hide(0);
+                        $(".modal-content").hide();
                         $.ajax({
                             url: "<?php echo admin_url('admin-ajax.php'); ?>",
                             type: "post",
@@ -119,7 +118,7 @@ class Map
                             success: function(data) {
                                 
                                 $(".modal-body").html(data);
-                                $(".modal-content").fadeIn(300);
+                                $(".modal-content").fadeIn(200);
                             },
                             error: function(xhr, desc, err) {
                                 $(".modal-body").html("<div class='alert alert-danger'>Error: " + err + "</div>");

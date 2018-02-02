@@ -23,8 +23,18 @@ class Plugin
     public function frontend_enqueue_scripts()
     {
         new Views\Frontend\SalesRep\Map;
+        // Enqueue Tether
+        if( ( ! wp_style_is( 'tether', 'queue' ) ) && 
+            ( ! wp_style_is( 'tether', 'done' ) ) ) {
+            wp_enqueue_script(
+                'tether',
+                plugins_url('encodeon-sales-rep-manager/vendor/tether-1.3.3/dist/js/tether.min.js'),
+                array(),
+                '1.3.3'
+            );
+        }
 
-        // Enqueue Bootstrap. Does a cursory check first to see if a bootstrap handle already exists
+        // Enqueue Bootstrap.
         if( ( ! wp_style_is( 'bootstrap', 'queue' ) ) && 
             ( ! wp_style_is( 'bootstrap', 'done' ) ) ) {
             wp_enqueue_style(
@@ -37,7 +47,7 @@ class Plugin
             wp_enqueue_script(
                 'bootstrap',
                 plugins_url('encodeon-sales-rep-manager/vendor/twbs/bootstrap/dist/js/bootstrap.min.js'),
-                array('jquery'),
+                array('jquery', "tether"),
                 '4.00'
             );
         }
