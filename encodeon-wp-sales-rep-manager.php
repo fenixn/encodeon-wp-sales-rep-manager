@@ -12,7 +12,7 @@ defined('ABSPATH') or die('Access Restricted');
 // register activation hook for when the plugin is installed.
 register_activation_hook(__FILE__, 'encodeon_sales_rep_manager_activate');
 function encodeon_sales_rep_manager_activate($network_wide) {
-    require_once dirname(__FILE__).'/encodeon-sales-rep-manager-loader.php';
+    require_once dirname(__FILE__).'/encodeon-wp-sales-rep-manager-loader.php';
     $loader = new EncodeonSalesRepManagerLoader();
     $loader->db_install();
 }

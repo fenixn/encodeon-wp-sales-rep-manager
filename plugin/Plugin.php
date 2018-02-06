@@ -40,7 +40,7 @@ class Plugin
             (! wp_style_is("tether", "done"))) {
                 wp_enqueue_script(
                     "tether",
-                    plugins_url("encodeon-sales-rep-manager/vendor/tether-1.3.3/dist/js/tether.min.js"),
+                    plugins_url("encodeon-wp-sales-rep-manager/vendor/tether-1.3.3/dist/js/tether.min.js"),
                     array(),
                     "1.3.3"
                 );
@@ -53,14 +53,14 @@ class Plugin
                (!wp_style_is("bootstrap", "done"))) {
                 wp_enqueue_style(
                     "bootstrap",
-                    plugins_url("encodeon-sales-rep-manager/vendor/twbs/bootstrap/dist/css/bootstrap.min.css"),
+                    plugins_url("encodeon-wp-sales-rep-manager/vendor/twbs/bootstrap/dist/css/bootstrap.min.css"),
                     array(),
                     "4.00"
                 );
 
                 wp_enqueue_script(
                     "bootstrap",
-                    plugins_url("encodeon-sales-rep-manager/vendor/twbs/bootstrap/dist/js/bootstrap.min.js"),
+                    plugins_url("encodeon-wp-sales-rep-manager/vendor/twbs/bootstrap/dist/js/bootstrap.min.js"),
                     array("jquery", "tether"),
                     "4.00"
                 );
@@ -73,7 +73,7 @@ class Plugin
                 ( ! wp_style_is( 'fontawesome', 'done' ) ) ) {
                 wp_enqueue_style(
                     'fontawesome',
-                    plugins_url('encodeon-sales-rep-manager/vendor/fontawesome/web-fonts-with-css/css/fontawesome-all.min.css'),
+                    plugins_url('encodeon-wp-sales-rep-manager/vendor/fontawesome/web-fonts-with-css/css/fontawesome-all.min.css'),
                     array(),
                     '5.0.4'
                 );
@@ -86,21 +86,21 @@ class Plugin
                (!wp_style_is("jqvmap", "done"))) {
                 wp_enqueue_style(
                     "jqvmap",
-                    plugins_url("encodeon-sales-rep-manager/vendor/jqvmap-master/dist/jqvmap.min.css"),
+                    plugins_url("encodeon-wp-sales-rep-manager/vendor/jqvmap-master/dist/jqvmap.min.css"),
                     array(),
                     "1.5.0"
                 );
 
                 wp_enqueue_script(
                     "jqvmap",
-                    plugins_url("encodeon-sales-rep-manager/vendor/jqvmap-master/dist/jquery.vmap.min.js"),
+                    plugins_url("encodeon-wp-sales-rep-manager/vendor/jqvmap-master/dist/jquery.vmap.min.js"),
                     array("jquery"),
                     "1.5.0"
                 );
 
                 wp_enqueue_script(
                     "jqvmap-usa",
-                    plugins_url("encodeon-sales-rep-manager/vendor/jqvmap-master/dist/maps/jquery.vmap.usa.js"),
+                    plugins_url("encodeon-wp-sales-rep-manager/vendor/jqvmap-master/dist/maps/jquery.vmap.usa.js"),
                     array("jquery"),
                     "1.5.0"
                 );

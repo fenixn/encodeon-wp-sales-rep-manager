@@ -8,8 +8,8 @@
 # Whitelist plugin files in plugin root directory
 !composer.json
 !composer.lock
-!encodeon-sales-rep-manager.php
-!encodeon-sales-rep-manager-loader.php
+!encodeon-wp-sales-rep-manager.php
+!encodeon-wp-sales-rep-manager-loader.php
 
 # Whitelist plugin directories
 !/plugin
