@@ -5,5 +5,11 @@ A WordPress plugin that adds a custom table for managing sales representatives. 
 
 ## Installation:
 1. Clone the main encodeon-wp-sales-rep-manager directory to your WordPress plugins folder.
-2. Install dependencies by running composer install in the encodeon-wp-sales-rep-manager directory
+```shell
+git clone https://github.com/fenixn/encodeon-wp-starter-theme.git
+```
+2. Install dependencies by running composer install in the plugin root directory
+```shell
+composer install
+```
 3. Activate the plugin in your WordPress plugins manager.
