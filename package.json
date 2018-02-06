@@ -1,0 +1,14 @@
+{
+    "name": "encodeon_wp_sales_rep_manager",
+    "author": "Phuong Nguyen",
+    "license": "GPL-3.0",
+    "repository": "https://github.com/fenixn/encodeon-wp-sales-rep-manager",
+    "bugs": "https://github.com/fenixn/encodeon-wp-sales-rep-manager/issues",
+    "dependencies": {
+        "bootstrap": "^4.0.0",
+        "font-awesome": "^4.7.0",
+        "jquery": "^3.3.1",
+        "popper.js": "^1.12.9",
+        "tether": "^1.4.3"
+    }
+}

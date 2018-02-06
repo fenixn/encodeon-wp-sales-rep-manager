@@ -36,13 +36,20 @@ class Plugin
     {
         /** Enqueue Tether */
         if ($tether === true) {
-            if((! wp_style_is("tether", "queue")) && 
-            (! wp_style_is("tether", "done"))) {
+            if((!wp_style_is("tether", "queue")) && 
+               (!wp_style_is("tether", "done"))) {
+                wp_enqueue_style(
+                    "tether",
+                    plugins_url("encodeon-wp-sales-rep-manager/node_modules/tether/dist/css/tether.min.css"),
+                    array(),
+                    "1.4.7"
+                );
+
                 wp_enqueue_script(
                     "tether",
-                    plugins_url("encodeon-wp-sales-rep-manager/vendor/tether-1.3.3/dist/js/tether.min.js"),
+                    plugins_url("encodeon-wp-sales-rep-manager/node_modules/tether/dist/js/tether.min.js"),
                     array(),
-                    "1.3.3"
+                    "1.4.7"
                 );
             }
         }
@@ -53,14 +60,14 @@ class Plugin
                (!wp_style_is("bootstrap", "done"))) {
                 wp_enqueue_style(
                     "bootstrap",
-                    plugins_url("encodeon-wp-sales-rep-manager/vendor/twbs/bootstrap/dist/css/bootstrap.min.css"),
+                    plugins_url("encodeon-wp-sales-rep-manager/node_modules/bootstrap/dist/css/bootstrap.min.css"),
                     array(),
                     "4.00"
                 );
 
                 wp_enqueue_script(
                     "bootstrap",
-                    plugins_url("encodeon-wp-sales-rep-manager/vendor/twbs/bootstrap/dist/js/bootstrap.min.js"),
+                    plugins_url("encodeon-wp-sales-rep-manager/node_modules/bootstrap/dist/js/bootstrap.min.js"),
                     array("jquery", "tether"),
                     "4.00"
                 );
@@ -69,8 +76,8 @@ class Plugin
 
         /** Enqueue FontAwesome */
         if ($font_awesome === true) {
-            if( ( ! wp_style_is( 'fontawesome', 'queue' ) ) && 
-                ( ! wp_style_is( 'fontawesome', 'done' ) ) ) {
+            if((!wp_style_is('fontawesome', 'queue')) && 
+               (!wp_style_is('fontawesome', 'done'))) {
                 wp_enqueue_style(
                     'fontawesome',
                     plugins_url('encodeon-wp-sales-rep-manager/vendor/fontawesome/web-fonts-with-css/css/fontawesome-all.min.css'),

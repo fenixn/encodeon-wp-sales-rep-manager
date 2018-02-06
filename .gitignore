@@ -6,17 +6,16 @@
 !readme.md
 
 # Whitelist plugin files in plugin root directory
-!composer.json
-!composer.lock
+!package.json
+!package-lock.json
 !encodeon-wp-sales-rep-manager.php
 !encodeon-wp-sales-rep-manager-loader.php
 
 # Whitelist plugin directories
 !/plugin
 
-# Whitelist vendor directories that can't be built with composer
+# Whitelist vendor directories for dependencies that don't have a updated npm package
 !/vendor
 vendor/*
 !/vendor/fontawesome
 !/vendor/jqvmap-master
-!/vendor/tether-1.3.3
