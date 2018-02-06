@@ -3,22 +3,20 @@
 
 # Whitelist Git files
 !.gitignore
-!README.md
+!readme.md
 
-# Whitelist plugin files
-!/encodeon-sales-rep-manager
-/encodeon-sales-rep-manager/*
-!/encodeon-sales-rep-manager/plugin
-!/encodeon-sales-rep-manager/tests
-!/encodeon-sales-rep-manager/composer.json
-!/encodeon-sales-rep-manager/composer.lock
-!/encodeon-sales-rep-manager/phpunit.xml
-!/encodeon-sales-rep-manager/encodeon-sales-rep-manager.php
-!/encodeon-sales-rep-manager/encodeon-sales-rep-manager-loader.php
+# Whitelist plugin files in plugin root directory
+!composer.json
+!composer.lock
+!encodeon-sales-rep-manager.php
+!encodeon-sales-rep-manager-loader.php
+
+# Whitelist plugin directories
+!/plugin
 
 # Whitelist vendor directories that can't be built with composer
-!/encodeon-sales-rep-manager/vendor
-/encodeon-sales-rep-manager/vendor/*
-!/encodeon-sales-rep-manager/vendor/fontawesome
-!/encodeon-sales-rep-manager/vendor/jqvmap-master
-!/encodeon-sales-rep-manager/vendor/tether-1.3.3
+!/vendor
+vendor/*
+!/vendor/fontawesome
+!/vendor/jqvmap-master
+!/vendor/tether-1.3.3
