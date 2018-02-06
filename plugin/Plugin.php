@@ -13,6 +13,9 @@ class Plugin
         add_action("wp_enqueue_scripts", array($this, "enqueue_for_frontend"));
     }
 
+    /**
+     * Set up the plugin admin menu items when the WordPress admin is loaded.
+     */
     public function on_wp_admin_menu()
     {
         new Views\Admin\MainMenu;
@@ -23,6 +26,9 @@ class Plugin
         new Views\Admin\Config;
     }
 
+    /**
+     * Set the options for which scripts to enqueue on the frontend.
+     */
     public function enqueue_for_frontend()
     {
         $tether = true;
@@ -32,6 +38,13 @@ class Plugin
         $this->enqueue_scripts($tether, $bootstrap, $font_awesome, $jqvmp);
     }
 
+    /**
+     * Set the enqueues for the scripts that the plugin uses. 
+     * @var bool $tether        Enqueues Tether js if true
+     * @var bool $bootstrap     Enqueues Bootstrap js and css if true
+     * @var bool $font_awesome  Enqueues FontQwesome css if true
+     * @var bool $jqvmp         Enqueues jQuery Vector Map js and css if true
+     */
     public function enqueue_scripts($tether=true, $bootstrap=true, $font_awesome=true, $jqvmp=false)
     {
         /** Enqueue Tether */
@@ -44,7 +57,6 @@ class Plugin
                     array(),
                     "1.4.7"
                 );
-
                 wp_enqueue_script(
                     "tether",
                     plugins_url("encodeon-wp-sales-rep-manager/node_modules/tether/dist/js/tether.min.js"),
@@ -64,7 +76,6 @@ class Plugin
                     array(),
                     "4.00"
                 );
-
                 wp_enqueue_script(
                     "bootstrap",
                     plugins_url("encodeon-wp-sales-rep-manager/node_modules/bootstrap/dist/js/bootstrap.min.js"),
@@ -76,13 +87,13 @@ class Plugin
 
         /** Enqueue FontAwesome */
         if ($font_awesome === true) {
-            if((!wp_style_is('fontawesome', 'queue')) && 
-               (!wp_style_is('fontawesome', 'done'))) {
+            if((!wp_style_is("fontawesome", "queue")) && 
+               (!wp_style_is("fontawesome", "done"))) {
                 wp_enqueue_style(
-                    'fontawesome',
-                    plugins_url('encodeon-wp-sales-rep-manager/vendor/fontawesome/web-fonts-with-css/css/fontawesome-all.min.css'),
+                    "fontawesome",
+                    plugins_url("encodeon-wp-sales-rep-manager/vendor/fontawesome/web-fonts-with-css/css/fontawesome-all.min.css"),
                     array(),
-                    '5.0.4'
+                    "5.0.4"
                 );
             }
         }
@@ -115,12 +126,20 @@ class Plugin
         }
     }
 
+    /**
+     * Run the controllers for the plugin
+     */
     public function run_controllers()
     {
         new Controllers\SalesRepAjaxController;
         new Controllers\ConfigAjaxController;
     }
 
+    /**
+     * Show an error message with jQuery on the .status-message element
+     * @var string $error   The error message to display.
+     * @var bool $refresh   After the error message, will show a link to refresh the page if true.
+     */
     public function show_error($error, $refresh = false)
     {
         $error_html = "<div class='alert alert-danger'>Error: " . $error; 
@@ -140,6 +159,11 @@ class Plugin
         <?php
     }
 
+    /**
+     * Show a success message with jQuery on the .status-message element
+     * @var string $success     The success message to display.
+     * @var string $after       Takes jQuery to run after the message.
+     */
     public function show_success($success, $after="")
     {
         $success_html = "<div class='alert alert-success'>Success: " . $success . "</div>";
