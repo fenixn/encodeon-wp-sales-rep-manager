@@ -8,8 +8,8 @@ A WordPress plugin that adds a custom table for managing sales representatives. 
 ```shell
 git clone https://github.com/fenixn/encodeon-wp-starter-theme.git
 ```
-2. Install dependencies by running composer install in the plugin root directory
+2. Install dependencies by running npm install in the plugin root directory
 ```shell
-composer install
+npm install
 ```
 3. Activate the plugin in your WordPress plugins manager.
