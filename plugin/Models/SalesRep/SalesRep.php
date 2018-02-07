@@ -251,17 +251,19 @@ class SalesRep extends \EncodeonSalesRepManager\Plugin
             <div class="table-responsive">
                 <?php if (count($sales_reps) > 0): ?>
                     <table id="sales-rep-manager-table" class="table table-striped table-sm">
-                        <thead class="thead-inverse">
-                        <?php foreach($sales_reps[0] as $key => $sales_rep): ?>
-                            <th class="text-capitalize bg-primary text-nowrap" 
-                                style="cursor: pointer"
-                                data-attribute-name="<?php echo $key; ?>"
-                                data-attribute-sort="<?php echo $sort; ?>">
-                            <?php $this->get_header_icon($key); ?>
-                            <?php echo $key; ?>
-                            <?php $this->get_sort_icon($attribute, $key, $sort); ?>
-                            </th>
-                        <?php endforeach; ?>
+                        <thead class="bg-primary text-white">
+                            <tr>
+                            <?php foreach($sales_reps[0] as $key => $sales_rep): ?>
+                                <th class="text-capitalize text-nowrap" 
+                                    style="cursor: pointer"
+                                    data-attribute-name="<?php echo $key; ?>"
+                                    data-attribute-sort="<?php echo $sort; ?>">
+                                <?php $this->get_header_icon($key); ?>
+                                <?php echo $key; ?>
+                                <?php $this->get_sort_icon($attribute, $key, $sort); ?>
+                                </th>
+                            <?php endforeach; ?>
+                            </tr>
                         </thead>
                         <?php foreach($sales_reps as $sales_rep): ?>
                         <tr>
