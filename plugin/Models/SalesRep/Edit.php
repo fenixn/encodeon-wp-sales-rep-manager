@@ -16,8 +16,11 @@ class Edit extends SalesRep
             die();
         };
 
+        /**
+         * Set each form input to a PHP variable
+         */
         foreach($_REQUEST as $key => $value) {
-            $$key = htmlspecialchars($value);
+            $$key = trim(htmlspecialchars($value));
         }
 
         /**
@@ -32,6 +35,7 @@ class Edit extends SalesRep
             if($$required_input == "") {
                 $error_message = "The " . $required_input . " field must not be empty. It is a required input.";
                 $this->show_error($error_message);
+                die();
             }
         }
 
@@ -39,6 +43,7 @@ class Edit extends SalesRep
         if($email != "") {
             if(!preg_match("/^\S+@\S+\.\S+$/", $email)) {
                 $this->show_error("The email input appears to be invalid. Contact the website administrator if you believe the email you inputted should be valid.");
+                die();
             }
         }
 
@@ -46,18 +51,21 @@ class Edit extends SalesRep
         if($phone != "") {
             if(!preg_match("/^\d{10}$/", $phone)) {
                 $this->show_error("Invalid phone number. This field must either be blank or consist of 10 numbers and should not contain any additional symbols such as parentheses or dashes.");
+                die();
             }
         }
 
         if($cell != "") {
             if(!preg_match("/^\d{10}$/", $cell)) {
                 $this->show_error("Invalid cell number. This field must either be blank or consist of 10 numbers and should not contain any additional symbols such as parentheses or dashes.");
+                die();
             }
         }
 
         if($fax != "") {
             if(!preg_match("/^\d{10}$/", $fax)) {
                 $this->show_error("Invalid fax number. This field must either be blank or consist of 10 numbers and should not contain any additional symbols such as parentheses or dashes.");
+                die();
             }
         }
 
@@ -75,11 +83,13 @@ class Edit extends SalesRep
                 case 5:
                     if(!preg_match("/^\d+$/", $zip)) {
                         $this->show_error("Invalid zip code. A five digit zip code must only consist of numbers.");
+                        die();
                     }
                     break;
                 case 10:
                     if(!preg_match("/^\d{5}-\d{4}$/", $zip)) {
                         $this->show_error("Invalid zip code. A five digit zip code with extension must follow this format: 12345-6789.");
+                        die();
                     }
                     break;
                 default:

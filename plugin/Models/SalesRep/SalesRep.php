@@ -54,7 +54,7 @@ class SalesRep extends \EncodeonSalesRepManager\Plugin
             <?php else: ?>
                 <div class="row">
                     <?php foreach($sales_reps as $sales_rep): ?>
-                    <div class="col-6 col-md-4 col-xl-3">
+                    <div class="col-12 col-md-6 col-xl-4 mt-2">
                         <div class="card-block text-left">
                             <?php if($sales_rep["company"] != ""): ?>
                             <div class="bold"><?php echo $sales_rep["company"]; ?></div>

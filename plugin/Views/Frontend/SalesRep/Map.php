@@ -30,7 +30,7 @@ class Map
         <div id="vmap" class="col-12 col-xl-8 offset-xl-2"></div>
 
         <div class="modal" id="sales-rep-modal" tabindex="-1" role="dialog">
-            <div class="modal-dialog .modal-dialog-centered h-100 d-flex flex-column justify-content-center my-0" role="document">
+            <div class="modal-dialog .modal-dialog-centered h-100 d-flex flex-column justify-content-center my-0" style="margin:auto" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title"></h5>
@@ -128,7 +128,7 @@ class Map
                             }
                         };
 
-                        /** runLoader starts the repeating animation */
+                        // runLoader starts the repeating animation
                         var runLoader = setInterval(function() {
                             displayLoader();
                         }, 150);
@@ -141,11 +141,13 @@ class Map
                             contentType: false,
                             success: function(data) {
                                 $(".modal-body").hide().html(data).slideDown(1000);
-                                /** End the loading animation */
-                                clearInterval(runLoader);
                             },
                             error: function(xhr, desc, err) {
                                 $(".modal-body").html("<div class='alert alert-danger'>Error: " + err + "</div>");
+                            },
+                            complete: function(xhr, status) {
+                                // End the loading animation
+                                clearInterval(runLoader);
                             }
                         });
                     }
@@ -153,7 +155,11 @@ class Map
                     function resize_modal() {
                         $(".modal-dialog").css("max-width", $(".page-content").width());
                         $(".modal .modal-body").css("overflow-y", "auto"); 
-                        $(".modal .modal-body").css("max-height", $(window).height() * 0.5);
+                        $(".modal .modal-body").css("max-height", $(window).height() * 0.3);
+                        $(".modal .modal-content").css({
+                            "width": $("#vmap").width(),
+                            "margin": "auto"
+                        });
                     }
                 });
             }(jQuery));
