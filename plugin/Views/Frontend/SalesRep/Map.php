@@ -107,7 +107,32 @@ class Map
                         );
                         form_data.append("state", code);
 
-                        $(".modal-content").hide();
+                        /**
+                         * Dot loading animation that appends dots 
+                         * to the end of the loading text. 
+                         */
+                        $(".modal-body").html("<div class='loader'></div>");
+
+                        var loaderText = "Loading, please wait";
+                        $(".loader").text(loaderText);
+
+                        function displayLoader() {
+                            var numDots = 6;
+                            var loaderTextLengthWithDots = loaderText.length + numDots;
+                            var currentLoaderTextLength = $(".loader").text().length;
+
+                            if (currentLoaderTextLength < loaderTextLengthWithDots) {
+                                $(".loader").append(".");
+                            } else {
+                                $(".loader").text(loaderText);
+                            }
+                        };
+
+                        /** runLoader starts the repeating animation */
+                        var runLoader = setInterval(function() {
+                            displayLoader();
+                        }, 150);
+
                         $.ajax({
                             url: "<?php echo admin_url('admin-ajax.php'); ?>",
                             type: "post",
@@ -115,9 +140,9 @@ class Map
                             processData: false,
                             contentType: false,
                             success: function(data) {
-                                
-                                $(".modal-body").html(data);
-                                $(".modal-content").fadeIn(200);
+                                $(".modal-body").hide().html(data).slideDown(1000);
+                                /** End the loading animation */
+                                clearInterval(runLoader);
                             },
                             error: function(xhr, desc, err) {
                                 $(".modal-body").html("<div class='alert alert-danger'>Error: " + err + "</div>");
