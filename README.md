@@ -13,3 +13,4 @@ git clone https://github.com/fenixn/encodeon-wp-starter-theme.git
 npm install
 ```
 3. Activate the plugin in your WordPress plugins manager.
+4. Use the shortcode [sales-rep-map] to add the sales rep map to a page.
