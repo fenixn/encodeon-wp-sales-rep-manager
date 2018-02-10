@@ -2,7 +2,7 @@
 /*
 Plugin Name: Encodeon Sales Rep Management
 Description: This plugin adds a custom table to manage sales reps.
-Version:     1.0
+Version:     1.1.2
 Author:      Phuong Nguyen
 */
 

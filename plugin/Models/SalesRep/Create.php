@@ -70,9 +70,10 @@ class Create extends SalesRep
         }
 
         // Validate state; whitelist strategy
-        $accepted_states = ["AK", "AL", "AR", "AZ", "CA", "CO", "CT", "DC", "DE", "FL", "GA", "HI", "IA", "ID", "IL", "IN", "KS", "KY", "LA", "MA", "MD", "ME", "MI", "MN", "MO", "MS", "MT", "NC", "ND", "NE", "NH", "NJ", "NM", "NV", "NY", "OH", "OK", "OR", "PA", "RI", "SC", "SD", "TN", "TX", "UT", "VA", "VT", "WA", "WI", "WV", "WY"];
+        $states = unserialize(get_option("encodeon_sales_reps_states"));
+        $accepted_state_codes = array_keys($states);
 
-        if(!in_array($state, $accepted_states) && strlen($state) !== 2) {
+        if(!in_array($state, $accepted_state_codes) && strlen($state) !== 2) {
             $this->show_error("Invalid input for the State.");
             die();
         }
