@@ -35,7 +35,7 @@ class Import
             $(document).ready(function() {
                 $(".custom-file-input").on("change", function() {
                     var fileName = $(this).val().split("\\").pop();
-                    $(this).next(".form-control-file").addClass("selected").html(fileName);
+                    $(".custom-file-label").html(fileName);
                 })
             });
         }(jQuery));
@@ -51,11 +51,15 @@ class Import
                             <form id="upload-sales-rep" enctype="multipart/form-data">
                                 <input type="hidden" name="action" value="upload_sales_rep">
                                 <input type="hidden" name="upload_sales_rep_nonce" value="<?php echo wp_create_nonce('upload_sales_rep'); ?>">
-                                <label class="custom-file">
-                                    <input type="file" class="custom-file-input" name="file" aria-describedby="fileHelp">
-                                    <span class="custom-file-control form-control-file "></span>
-                                </label>
-                                <button type="submit" class="btn btn-primary">Upload</button>
+                                <div class="form-group">
+                                    <label class="custom-file rounded">
+                                        <input type="file" class="custom-file-input"  name="file" aria-describedby="fileHelp" required>
+                                        <label class="custom-file-label" for="customFile">Choose file</label>
+                                    </label>
+                                </div>
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-primary">Upload</button>
+                                </div>
                             </form>
                         </div>
 
