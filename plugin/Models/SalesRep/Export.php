@@ -47,7 +47,7 @@ class Export extends SalesRep
 
             $file_url = wp_upload_dir()["baseurl"] . "/export/abra-lighting-sales-rep.csv";
 
-            $this->show_success("The file has successfully been generated. <a href='" . $file_url . "'>Click here to download the sales rep csv</a>.");
+            $this->show_success("The file has successfully been generated. <a download href='" . $file_url . "'>Click here to download the sales rep csv</a>.");
             die();
         }
     }
