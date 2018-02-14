@@ -166,7 +166,7 @@ class SalesRep extends \EncodeonSalesRepManager\Plugin
         $num_rows = $wpdb->get_var("SELECT COUNT(*) FROM " . get_option("encodeon_sales_reps_table_name"));
         $total_pages = ceil($num_rows/$limit);
 
-        if ($page > $total_pages && $total_pages !== 0) {
+        if ($page > $total_pages && $total_pages != 0) {
             die("Invalid page input");
         }
 
@@ -250,7 +250,9 @@ class SalesRep extends \EncodeonSalesRepManager\Plugin
 
         <div class="row mt-2">
             <div class="table-responsive">
-                <?php if (count($sales_reps) > 0): ?>
+                <?php if ($total_pages == 0): ?>
+                    <div class="col-sm">There are no sales representatives to show. You can add sales reps by clicking <a href="admin.php?page=sales-rep-manager-add">Add New Sales Rep</a> or <a href="admin.php?page=sales-rep-manager-import">Import</a>.</div>
+                <?php elseif (count($sales_reps) > 0): ?>
                     <table id="sales-rep-manager-table" class="table table-striped table-sm">
                         <thead class="bg-primary text-white">
                             <tr>
