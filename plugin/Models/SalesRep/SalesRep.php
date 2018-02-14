@@ -158,12 +158,19 @@ class SalesRep extends \EncodeonSalesRepManager\Plugin
             die();
         }
 
+        // Set the table to query
+        if ($table == 1 ) {
+            $table_name = get_option("encodeon_sales_reps_table_name");
+        } else {
+            $table_name = get_option("encodeon_sales_reps_import_table_name");
+        }
+
         /**
          * Set Pagination variables
          */
 
         // Get the total number of rows first to calculate total number of pages
-        $num_rows = $wpdb->get_var("SELECT COUNT(*) FROM " . get_option("encodeon_sales_reps_table_name"));
+        $num_rows = $wpdb->get_var("SELECT COUNT(*) FROM " . $table_name);
         $total_pages = ceil($num_rows/$limit);
 
         if ($page > $total_pages && $total_pages != 0) {
@@ -180,7 +187,7 @@ class SalesRep extends \EncodeonSalesRepManager\Plugin
         if ($search_term != "") {
             $search_condition = " WHERE ";
         
-            $table_headers = $wpdb->get_results("SHOW COLUMNS FROM " . get_option("encodeon_sales_reps_table_name"), ARRAY_A);
+            $table_headers = $wpdb->get_results("SHOW COLUMNS FROM " . $table_name, ARRAY_A);
 
             foreach($table_headers as $table_header) {
                 $search_condition .= $table_header["Field"] . " LIKE %s OR ";
@@ -192,11 +199,7 @@ class SalesRep extends \EncodeonSalesRepManager\Plugin
             $search_condition = " ";
         }
         
-        if ($table == 1 ) {
-            $table_name = get_option("encodeon_sales_reps_table_name");
-        } else {
-            $table_name = get_option("encodeon_sales_reps_import_table_name");
-        }
+        
 
         $like_search = "%" . $wpdb->esc_like($search_term) . "%";
 
@@ -301,7 +304,10 @@ class SalesRep extends \EncodeonSalesRepManager\Plugin
 
     public function get_pager($page, $total_pages, $pager_increment = 3)
     {
-        if (($page - $pager_increment) <= 1) {
+        if ($total_pages == 0) {
+            $pager_start = 1;
+            $pager_end = 1;
+        } else if (($page - $pager_increment) <= 1) {
             $pager_start = 1;
 
             if ($pager_start + 2 * $pager_increment >= $total_pages) {
@@ -351,20 +357,20 @@ class SalesRep extends \EncodeonSalesRepManager\Plugin
                     <a href="" class="page-link"><?php echo $i; ?></a>
                 </li>
                 <?php endfor; ?>
-                <li class="page-item <?php if ($page == $total_pages) echo "disabled" ?>"
+                <li class="page-item <?php if ($page == $total_pages || $total_pages == 0) echo "disabled" ?>"
                     data-page="<?php echo ($page+1); ?>"
                     data-active="<?php echo ($page == $total_pages ? 0 : 1); ?>">
                     <a href="" class="page-link">
                         <i class="fas fa-caret-right"></i>
                     </a>
                 </li>
-                <li class="page-item text-nowrap <?php if ($page == $total_pages) echo "disabled" ?>" 
+                <li class="page-item text-nowrap <?php if ($page == $total_pages || $total_pages == 0) echo "disabled" ?>" 
                     data-page="<?php echo $total_pages; ?>"
                     data-active="<?php echo ($page == $total_pages ? 0 : 1); ?>">
                     <a href="" class="page-link">
                         <i class="fas fa-caret-right d-none d-sm-inline"></i>
                         <i class="fas fa-caret-right d-none d-sm-inline"></i>
-                        <?php echo $total_pages; ?>
+                        <?php echo ($total_pages == 0 ? 1 : $total_pages ); ?>
                     </a>
                 </li>
             </ul>
