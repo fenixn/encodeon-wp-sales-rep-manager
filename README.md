@@ -1,5 +1,5 @@
 # Encodeon Sales Rep Manager for WordPress
-Version 1.1.3
+Version 1.1.4
 
 ## Description:
 A WordPress plugin that adds a custom table for managing sales representatives. The plugin provides a shortcode that you can add to your pages to generate a US map that users can interact with. Clicking on a state will open up a modal displaying all sales representatives in the state.
