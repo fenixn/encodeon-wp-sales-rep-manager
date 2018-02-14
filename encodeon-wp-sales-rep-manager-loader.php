@@ -1,7 +1,7 @@
 <?php
 
 class EncodeonSalesRepManagerLoader {
-    private $version = "1.1.3";
+    private $version = "1.1.4";
     private $db_version = "1.0.0";
 
     /**
