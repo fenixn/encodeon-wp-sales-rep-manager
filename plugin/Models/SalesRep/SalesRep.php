@@ -166,7 +166,7 @@ class SalesRep extends \EncodeonSalesRepManager\Plugin
         $num_rows = $wpdb->get_var("SELECT COUNT(*) FROM " . get_option("encodeon_sales_reps_table_name"));
         $total_pages = ceil($num_rows/$limit);
 
-        if ($page > $total_pages) {
+        if ($page > $total_pages && $total_pages !== 0) {
             die("Invalid page input");
         }
 
