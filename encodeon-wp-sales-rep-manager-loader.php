@@ -59,7 +59,7 @@ class EncodeonSalesRepManagerLoader {
 
         // Install the import preview table
         $sql = "
-        CREATE TABLE " . $sales_reps_table . " (
+        CREATE TABLE " . get_option("encodeon_sales_reps_import_table_name") . " (
             id int(11) NOT NULL auto_increment,
             name varchar(255) NOT NULL,
             email varchar(255) default NULL,
